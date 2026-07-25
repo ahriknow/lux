@@ -1,0 +1,64 @@
+{
+  "name": "@ahriknow/lux",
+  "version": "0.0.1",
+  "description": "Lightweight Web Components framework with reactive properties, template engine, router, and i18n",
+  "type": "module",
+  "main": "dist/lux.iife.js",
+  "module": "dist/lux.js",
+  "exports": {
+    ".": {
+      "import": "./dist/lux.js",
+      "require": "./dist/lux.iife.js",
+      "default": "./dist/lux.js"
+    },
+    "./template": {
+      "import": "./dist/lux.template.js",
+      "default": "./dist/lux.template.js"
+    },
+    "./element": "./src/element.js",
+    "./router": "./src/router.js",
+    "./code": "./src/components/lux-code/index.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "README_zh-CN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c && node -e \"const fs=require('fs'),p=require('path');['docs/themes','dist/themes'].forEach(d=>{fs.mkdirSync(d,{recursive:true});fs.readdirSync('src/themes').filter(f=>f.endsWith('.css')).forEach(f=>fs.copyFileSync(p.join('src/themes',f),p.join(d,f)))})\"",
+    "dev": "npx serve ./docs -l 6001",
+    "format": "prettier --write \"src/**/*.js\" \"docs/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"docs/**/*.js\""
+  },
+  "keywords": [
+    "web-components",
+    "shadow-dom",
+    "router",
+    "template",
+    "components",
+    "ui",
+    "library",
+    "framework",
+    "ui library"
+  ],
+  "author": "ahriknow <ahriknow@ahriknow.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahriknow/lux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ahriknow/lux/issues"
+  },
+  "homepage": "https://github.com/ahriknow/lux#readme",
+  "devDependencies": {
+    "@rollup/plugin-terser": "^1.0.0",
+    "prettier": "^3.9.6",
+    "rollup": "^4.62.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

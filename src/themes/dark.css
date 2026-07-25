@@ -1,0 +1,130 @@
+/**
+ * Lux Dark Theme
+ * Import this file to apply the dark theme:
+ *   import '@ahriknow/lux/themes/dark.css';
+ */
+:root {
+  /* ── Primary (lighter for dark bg) ── */
+  --lux-primary-50:  35 30 100;
+  --lux-primary-100: 52 45 136;
+  --lux-primary-200: 67 58 168;
+  --lux-primary-300: 82 73 195;
+  --lux-primary-400: 129 120 247;
+  --lux-primary-500: 139 92 246;
+  --lux-primary-600: 147 100 255;
+  --lux-primary-700: 186 200 255;
+  --lux-primary-800: 219 228 255;
+  --lux-primary-900: 238 242 255;
+
+  /* ── Semantic ── */
+  --lux-success: 152 195 121;
+  --lux-warning: 209 154 102;
+  --lux-error:   224 108 117;
+  --lux-info:    86 182 194;
+
+  --lux-success-light: 20 83 45;
+  --lux-warning-light: 113 63 18;
+  --lux-error-light:   127 29 29;
+  --lux-info-light:    23 37 84;
+
+  /* ── Background ── */
+  --lux-bg:        40 44 52;
+  --lux-bg-alt:    50 54 64;
+  --lux-surface:   40 44 52;
+  --lux-card:      50 54 64;
+  --lux-overlay:   0 0 0 / 60%;
+
+  /* ── Nav ── */
+  --lux-nav-bg:    rgba(40, 44, 52, 0.92);
+
+  /* ── Text ── */
+  --lux-text:            171 178 191;
+  --lux-text-secondary:  148 155 172;
+  --lux-text-muted:      92 99 112;
+
+  /* ── Scrollbar ── */
+  --lux-scrollbar:  92 99 112;
+
+  /* ── Border ── */
+  --lux-border:       62 68 81;
+  --lux-border-hover: 76 82 96;
+  --lux-border-focus: 198 120 221;
+
+  /* ── Interactive ── */
+  --lux-hover:   255 255 255 / 5%;
+  --lux-active:  255 255 255 / 8%;
+  --lux-focus:   0 0 0 / 50%;
+  --lux-disabled: 50 54 64;
+
+  /* ── Shadow ── */
+  --lux-shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 30%);
+  --lux-shadow:     0 1px 3px 0 rgb(0 0 0 / 40%), 0 1px 2px -1px rgb(0 0 0 / 40%);
+  --lux-shadow-md:  0 4px 6px -1px rgb(0 0 0 / 40%), 0 2px 4px -2px rgb(0 0 0 / 40%);
+  --lux-shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 40%), 0 4px 6px -4px rgb(0 0 0 / 40%);
+
+  /* ── Radius (same as light) ── */
+  --lux-radius-sm:   4px;
+  --lux-radius:      6px;
+  --lux-radius-md:   8px;
+  --lux-radius-lg:   12px;
+  --lux-radius-xl:   16px;
+  --lux-radius-full: 9999px;
+
+  /* ── Typography ── */
+  --lux-font-sans:  -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --lux-font-mono:  'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  --lux-font-xs:    0.75rem;
+  --lux-font-sm:    0.875rem;
+  --lux-font-base:  1rem;
+  --lux-font-lg:    1.125rem;
+  --lux-font-xl:    1.25rem;
+  --lux-font-2xl:   1.5rem;
+  --lux-font-3xl:   1.875rem;
+
+  /* ── Spacing ── */
+  --lux-space-1:  0.25rem;
+  --lux-space-2:  0.5rem;
+  --lux-space-3:  0.75rem;
+  --lux-space-4:  1rem;
+  --lux-space-5:  1.25rem;
+  --lux-space-6:  1.5rem;
+  --lux-space-8:  2rem;
+  --lux-space-10: 2.5rem;
+  --lux-space-12: 3rem;
+
+  /* ── Transition ── */
+  --lux-transition:   150ms ease;
+  --lux-transition-slow: 300ms ease;
+
+  /* ── Code ── */
+  --lux-code-bg:         40 44 52;
+  --lux-code-header:     50 54 64;
+  --lux-code-border:     62 68 81;
+  --lux-code-text:       171 178 191;
+  --lux-code-keyword:    198 120 221;
+  --lux-code-string:     152 195 121;
+  --lux-code-number:     209 154 102;
+  --lux-code-comment:    92 99 112;
+  --lux-code-function:   97 174 238;
+  --lux-code-class:      230 192 123;
+  --lux-code-variable:   224 108 117;
+  --lux-code-tag:        224 108 117;
+  --lux-code-attr:       209 154 102;
+  --lux-code-selector:   152 195 121;
+  --lux-code-literal:    86 182 194;
+  --lux-code-symbol:     97 174 238;
+  --lux-code-built-in:   230 192 123;
+  --lux-code-meta:       97 174 238;
+  --lux-code-section:    224 108 117;
+  --lux-code-bullet:     97 174 238;
+  --lux-code-operator:   171 178 191;
+  --lux-code-punctuation: 171 178 191;
+  --lux-code-type:       209 154 102;
+  --lux-code-name:       224 108 117;
+  --lux-code-addition:   152 195 121;
+  --lux-code-deletion:   224 108 117;
+  --lux-code-emphasis:   171 178 191;
+  --lux-code-strong:     171 178 191;
+
+  color-scheme: dark;
+}

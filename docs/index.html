@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lux — Lightweight Web Components</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="./themes/light.css">
+  <script defer src="./highlight.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: rgb(var(--lux-bg));
+      --bg-sidebar: rgb(var(--lux-bg));
+      --bg-card: rgb(var(--lux-card));
+      --bg-code: rgb(var(--lux-bg));
+      --text: rgb(var(--lux-text));
+      --text-dim: rgb(var(--lux-text-secondary));
+      --accent: rgb(var(--lux-primary-400));
+      --accent-light: rgb(var(--lux-primary-400));
+      --green: rgb(var(--lux-success));
+      --border: rgb(var(--lux-border));
+      --radius: var(--lux-radius);
+      --sidebar-w: 240px;
+      --nav-h: 56px;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent-light);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <router-outlet></router-outlet>
+
+  <script type="module">
+    import { createRouter } from './lux.min.js';
+
+    // ─── Lazy-load page components ───
+    const layout = () => import('./pages/index.js');
+    const home = () => import('./pages/home/index.js');
+    const guide = () => import('./pages/guide/index.js');
+    const api = () => import('./pages/api/index.js');
+    const examples = () => import('./pages/examples/index.js');
+    const pageRouter = () => import('./pages/router/index.js');
+    const i18n = () => import('./pages/i18n/index.js');
+    const test = () => import('./pages/test/index.js');
+    const pageComponents = () => import('./pages/components/index.js');
+    const compIntro = () => import('./pages/components/intro/index.js');
+    const compLayout = () => import('./pages/components/layout/index.js');
+    const compMenu = () => import('./pages/components/menu/index.js');
+    const compScroll = () => import('./pages/components/scroll/index.js');
+    const compExample = () => import('./pages/components/example/index.js');
+    const compButton = () => import('./pages/components/button/index.js');
+    const compInput = () => import('./pages/components/input/index.js');
+    const compSwitch = () => import('./pages/components/switch/index.js');
+    const compDropdown = () => import('./pages/components/dropdown/index.js');
+    const compIcon = () => import('./pages/components/icon/index.js');
+    const compTable = () => import('./pages/components/table/index.js');
+    const compCode = () => import('./pages/components/code/index.js');
+
+    // ─── Routes ───
+    createRouter({
+      routes: [
+        {
+          path: '/', component: layout, redirect: '/home', children: [
+            { path: '/home', component: home },
+            { path: '/guide', component: guide },
+            { path: '/api', component: api },
+            { path: '/examples', component: examples },
+            { path: '/router', component: pageRouter },
+            { path: '/i18n', component: i18n },
+            { path: '/test', component: test },
+          ]
+        },
+        {
+          path: '/components', component: pageComponents, redirect: '/components/intro', children: [
+            { path: '/intro', component: compIntro },
+            { path: '/layout', component: compLayout },
+            { path: '/menu', component: compMenu },
+            { path: '/scroll', component: compScroll },
+            { path: '/example', component: compExample },
+            { path: '/button', component: compButton },
+            { path: '/input', component: compInput },
+            { path: '/switch', component: compSwitch },
+            { path: '/dropdown', component: compDropdown },
+            { path: '/icon', component: compIcon },
+            { path: '/table', component: compTable },
+            { path: '/code', component: compCode },
+          ]
+        },
+      ]
+    });
+  </script>
+
+</body>
+
+</html>

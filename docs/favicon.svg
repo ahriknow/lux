@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="g1" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#9B8FF0"/>
+      <stop offset="100%" stop-color="#5B4CCC"/>
+    </linearGradient>
+  </defs>
+  <!-- Diamond gem with two facets -->
+  <polygon points="16,2 29,11 16,30 3,11" fill="url(#g1)"/>
+  <!-- Left facet highlight -->
+  <polygon points="16,2 3,11 9,11 16,7" fill="#B8ACF5" opacity="0.45"/>
+  <!-- Inner facet line -->
+  <polygon points="16,2 16,30 20,11" fill="#4A3CB0" opacity="0.2"/>
+  <!-- Top sparkle -->
+  <circle cx="16" cy="6" r="1.5" fill="#fff" opacity="0.9"/>
+</svg>

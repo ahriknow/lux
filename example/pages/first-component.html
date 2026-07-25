@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Lux First Component</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../index.html"
+        style="color:#6366f1;text-decoration:none;font-size:14px;display:inline-block;margin-bottom:16px">← Back to
+        Home</a>
+    <br>
+    <my-greeting name="Lux" />
+    <script type="module">
+        import { html, css, LuxElement, registerComponent } from '../node_modules/@ahriknow/lux/dist/lux.min.js'
+
+        class MyGreeting extends LuxElement {
+            static styles = css`
+                :host { display: block; padding: 20px; }
+                h2 { color: #6c5ce7; }
+            `;
+
+            static properties = { name: { type: String } };
+
+            render() {
+                return html`<h2>Hello, ${this.name || 'World'}</h2>`;
+            }
+        }
+
+        registerComponent('my-greeting', MyGreeting);
+    </script>
+</body>
+
+</html>

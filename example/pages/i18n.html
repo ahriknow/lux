@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Lux i18n</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #1e293b;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            color: #475569;
+        }
+
+        p {
+            color: #64748b;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .lang-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.15s;
+        }
+
+        .lang-btn.active {
+            background: #6366f1;
+            color: #fff;
+            border-color: #6366f1;
+        }
+
+        .lang-btn:hover:not(.active) {
+            border-color: #6366f1;
+        }
+
+        .result {
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .row button {
+            padding: 4px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .row button:hover {
+            background: #f1f5f9;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../index.html"
+        style="color:#6366f1;text-decoration:none;font-size:14px;display:inline-block;margin-bottom:16px">← Back to
+        Home</a>
+    <br>
+    <h1>Lux i18n</h1>
+    <p>Lightweight internationalization with ICU MessageFormat, number/date formatting.</p>
+
+    <div class="lang-bar">
+        <button class="lang-btn active" data-lang="zh-CN">中文</button>
+        <button class="lang-btn" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="ru">Русский</button>
+    </div>
+
+    <h2>Basic Translation</h2>
+    <div class="result" id="r-hello"></div>
+
+    <h2>Variable Interpolation</h2>
+    <div class="result" id="r-welcome"></div>
+
+    <h2>Pluralization</h2>
+    <div class="row">
+        <button id="dec">-1</button>
+        <span id="count-display" style="font-weight:600;min-width:20px;text-align:center">5</span>
+        <button id="inc">+1</button>
+    </div>
+    <div class="result" id="r-items"></div>
+
+    <h2>Select</h2>
+    <div class="row">
+        <button data-gender="male">male</button>
+        <button data-gender="female">female</button>
+        <button data-gender="other">other</button>
+    </div>
+    <div class="result" id="r-gender"></div>
+
+    <h2>Number Formatting</h2>
+    <div class="result" id="r-number"></div>
+
+    <h2>Date Formatting</h2>
+    <div class="result" id="r-date"></div>
+
+    <script type="module">
+        import { createI18n, msg, number, date } from '../node_modules/@ahriknow/lux/dist/lux.min.js'
+
+        const messages = {
+            'zh-CN': {
+                hello: '你好',
+                welcome: '欢迎, {name}',
+                items: '{count, plural, =0{没有项目} =1{# 个项目} other{# 个项目}}',
+                gender: '{gender, select, male{他是} female{她是} other{他们是}}',
+            },
+            'en': {
+                hello: 'Hello',
+                welcome: 'Welcome, {name}',
+                items: '{count, plural, =0{No items} =1{# item} other{# items}}',
+                gender: '{gender, select, male{He is} female{She is} other{They are}}',
+            },
+            'ru': {
+                hello: 'Привет',
+                welcome: 'Добро пожаловать, {name}',
+                items: '{count, plural, =0{Нет элементов} =1{# элемент} other{# элементов}}',
+                gender: '{gender, select, male{Он} female{Она} other{Они}}',
+            },
+        };
+
+        const i18n = createI18n({ locale: 'zh-CN', messages });
+
+        let count = 5;
+        let gender = 'male';
+
+        function update() {
+            document.getElementById('r-hello').textContent = msg('hello');
+            document.getElementById('r-welcome').textContent = msg('welcome', { name: 'Alice' });
+            document.getElementById('count-display').textContent = count;
+            document.getElementById('r-items').textContent = msg('items', { count });
+            document.getElementById('r-gender').textContent = msg('gender', { gender });
+            document.getElementById('r-number').textContent =
+                number(1234567) + ' | ' +
+                number(0.95, 'percent') + ' | ' +
+                number(1234567, { style: 'currency', currency: 'CNY' });
+            document.getElementById('r-date').textContent = date(new Date(), { dateStyle: 'full' });
+        }
+
+        // Language switching
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                i18n.setLocale(btn.dataset.lang);
+                update();
+            });
+        });
+
+        // Count +/- 
+        document.getElementById('inc').addEventListener('click', () => { count++; update(); });
+        document.getElementById('dec').addEventListener('click', () => { count = Math.max(0, count - 1); update(); });
+
+        // Gender select
+        document.querySelectorAll('[data-gender]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                gender = btn.dataset.gender;
+                update();
+            });
+        });
+
+        // Initial render
+        update();
+    </script>
+</body>
+
+</html>

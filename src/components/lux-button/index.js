@@ -19,7 +19,7 @@ import '../lux-icon/index.js';
 const styles = css`
     :host {
         display: inline-flex;
-        align-items: center;
+        align-items: stretch;
         justify-content: center;
         cursor: pointer;
         vertical-align: middle;
@@ -38,7 +38,8 @@ const styles = css`
         align-items: center;
         justify-content: center;
         gap: var(--btn-gap, 8px);
-        padding: var(--btn-py, 6px) var(--btn-px, 16px);
+        width: 100%;
+        padding: var(--btn-py, 8px) var(--btn-px, 16px);
         border: 1px solid transparent;
         border-radius: var(--btn-radius, 6px);
         font-size: var(--btn-font, 13px);
@@ -47,9 +48,6 @@ const styles = css`
         cursor: pointer;
         transition: all var(--lux-transition, 150ms ease);
         white-space: nowrap;
-    }
-    :host(:not([block])) .btn {
-        width: 100%;
         box-sizing: border-box;
     }
     .btn:active {
@@ -226,13 +224,13 @@ const styles = css`
 
     /* ── Size ── */
     :host([size='sm']) .btn {
-        --btn-py: 4px;
+        --btn-py: 7px;
         --btn-px: 12px;
         --btn-font: 12px;
         --btn-gap: 4px;
     }
     :host([size='lg']) .btn {
-        --btn-py: 10px;
+        --btn-py: 12px;
         --btn-px: 20px;
         --btn-font: 15px;
         --btn-gap: 10px;

@@ -353,18 +353,18 @@ class PageComponentsIcon extends LuxElement {
             <p>${msg('icon.all', { count: icons.length })}:</p>
             <div class="demo-row" style="flex-wrap:wrap;gap:6px">
                 ${icons.map(
-            (name) => html`
-                <div
-                    style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;border:1px solid rgb(var(--lux-border));border-radius:var(--lux-radius);background:rgb(var(--lux-card));min-width:72px;color:rgb(var(--lux-text))"
-                >
-                    <lux-icon .name=${name} size="24px"></lux-icon>
-                    <span
-                        style="font-size:11px;color:rgb(var(--lux-text-muted));text-align:center;word-break:break-all"
-                        >${name}</span
-                    >
-                </div>
-            `
-        )}
+                    (name) => html`
+                        <div
+                            style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;border:1px solid rgb(var(--lux-border));border-radius:var(--lux-radius);background:rgb(var(--lux-card));min-width:72px;color:rgb(var(--lux-text))"
+                        >
+                            <lux-icon .name=${name} size="24px"></lux-icon>
+                            <span
+                                style="font-size:11px;color:rgb(var(--lux-text-muted));text-align:center;word-break:break-all"
+                                >${name}</span
+                            >
+                        </div>
+                    `
+                )}
             </div>
         `;
     }

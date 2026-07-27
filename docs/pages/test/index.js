@@ -274,32 +274,32 @@ class PageTest extends LuxElement {
             <p>Pick colors for each role — palette and tokens are generated automatically.</p>
 
             ${colorRoles.map(
-          (role) => html`
-              <div class="role-section">
-                  <div class="role-header">
-                      <span class="role-label">${role.label}</span>
-                      <span class="role-desc">${role.desc}</span>
-                  </div>
-                  <div class="preset-row">
-                      ${presets.map(
-                  (p) => html`
-                      <button
-                          class="preset-btn ${colors[role.key] === p.color ? 'active' : ''}"
-                          .style=${btnBase + 'background:' + p.color}
-                          @click=${() => this._pickColor(role.key, p.color)}
-                      ></button>
-                  `
-              )}
-                      <input
-                          type="color"
-                          class="custom-input"
-                          .value=${colors[role.key]}
-                          @input=${(e) => this._pickColor(role.key, e.target.value)}
-                      />
-                  </div>
-              </div>
-          `
-      )}
+                (role) => html`
+                    <div class="role-section">
+                        <div class="role-header">
+                            <span class="role-label">${role.label}</span>
+                            <span class="role-desc">${role.desc}</span>
+                        </div>
+                        <div class="preset-row">
+                            ${presets.map(
+                                (p) => html`
+                                    <button
+                                        class="preset-btn ${colors[role.key] === p.color ? 'active' : ''}"
+                                        .style=${btnBase + 'background:' + p.color}
+                                        @click=${() => this._pickColor(role.key, p.color)}
+                                    ></button>
+                                `
+                            )}
+                            <input
+                                type="color"
+                                class="custom-input"
+                                .value=${colors[role.key]}
+                                @input=${(e) => this._pickColor(role.key, e.target.value)}
+                            />
+                        </div>
+                    </div>
+                `
+            )}
 
             <h2>Dark Mode</h2>
             <div class="toggle-row">
@@ -315,38 +315,38 @@ class PageTest extends LuxElement {
             <h2>Generated Tokens</h2>
             <div class="tokens">
                 ${['primary-500', 'primary-400', 'primary-600', 'primary-700', 'primary-800'].map(
-            (k) => html`
-                <div class="token">
-                    <div
-                        class="token-swatch"
-                        .style=${swatchBase + 'background:rgb(var(--lux-' + k + '))'}
-                    ></div>
-                    <span class="token-name">${k}</span>
-                </div>
-            `
-        )}
+                    (k) => html`
+                        <div class="token">
+                            <div
+                                class="token-swatch"
+                                .style=${swatchBase + 'background:rgb(var(--lux-' + k + '))'}
+                            ></div>
+                            <span class="token-name">${k}</span>
+                        </div>
+                    `
+                )}
                 ${['success', 'warning', 'error', 'info'].map(
-            (k) => html`
-                <div class="token">
-                    <div
-                        class="token-swatch"
-                        .style=${swatchBase + 'background:rgb(var(--lux-' + k + '))'}
-                    ></div>
-                    <span class="token-name">${k}</span>
-                </div>
-            `
-        )}
+                    (k) => html`
+                        <div class="token">
+                            <div
+                                class="token-swatch"
+                                .style=${swatchBase + 'background:rgb(var(--lux-' + k + '))'}
+                            ></div>
+                            <span class="token-name">${k}</span>
+                        </div>
+                    `
+                )}
                 ${['bg', 'card', 'text', 'text-secondary', 'border'].map(
-            (k) => html`
-                <div class="token">
-                    <div
-                        class="token-swatch"
-                        .style=${swatchBase + 'background:rgb(var(--lux-' + k + '))'}
-                    ></div>
-                    <span class="token-name">${k}</span>
-                </div>
-            `
-        )}
+                    (k) => html`
+                        <div class="token">
+                            <div
+                                class="token-swatch"
+                                .style=${swatchBase + 'background:rgb(var(--lux-' + k + '))'}
+                            ></div>
+                            <span class="token-name">${k}</span>
+                        </div>
+                    `
+                )}
             </div>
 
             <h2>Component Preview</h2>

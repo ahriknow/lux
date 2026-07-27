@@ -1,6 +1,6 @@
 import { html, css, LuxElement } from '../../../lux.min.js';
 import { msg } from '../../../lux.min.js';
-import '../../../complib/lux-dropdown.min.js';
+import '../../../complib/lux-select.min.js';
 import '../../../complib/lux-button.min.js';
 import '../../../complib/lux-example.min.js';
 import '../../../complib/lux-code.min.js';
@@ -47,13 +47,13 @@ const styles = css`
     }
 `;
 
-class PageComponentsDropdown extends LuxElement {
+class PageComponentsSelect extends LuxElement {
     static styles = styles;
 
     firstUpdated() {
-        const progDd = this.$('#dd-prog');
-        if (progDd) {
-            progDd.options = [
+        const progSelect = this.$('#dd-prog');
+        if (progSelect) {
+            progSelect.options = [
                 { value: 'apple', label: 'Apple' },
                 { value: 'banana', label: 'Banana' },
                 { value: 'cherry', label: 'Cherry' },
@@ -62,25 +62,28 @@ class PageComponentsDropdown extends LuxElement {
     }
 
     render() {
+        const phFruit = msg('select.ph.fruit');
+        const phSelect = msg('select.ph.select');
+
         return html`
-            <h1>${msg('dd.title')}</h1>
-            <p class="subtitle">${msg('dd.subtitle')}</p>
+            <h1>${msg('select.title')}</h1>
+            <p class="subtitle">${msg('select.subtitle')}</p>
 
             <lux-example>
-                <span slot="heading">${msg('dd.basic')}</span>
+                <span slot="heading">${msg('select.basic')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-dropdown .options=${fruitOptions}>
-                            <span slot="trigger">Select Fruit</span>
-                        </lux-dropdown>
+                        <lux-select
+                            .placeholder=${phFruit}
+                            .options=${fruitOptions}
+                            @change=${(e) => console.log(e.detail)}
+                        ></lux-select>
                     </div>
                 </div>
                 <div slot="footer">
                     <lux-code
                         language="html"
-                        .code=${`<lux-dropdown .options=${'[{value:"apple",label:"Apple"},...]'}>
-    <span slot="trigger">Select Fruit</span>
-</lux-dropdown>`}
+                        .code=${`<lux-select placeholder="..." .options=${'[{value:"apple",label:"Apple"},...]'}></lux-select>`}
                     ></lux-code>
                 </div>
             </lux-example>
@@ -89,9 +92,7 @@ class PageComponentsDropdown extends LuxElement {
                 <span slot="heading">${msg('dd.programmatic')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-dropdown id="dd-prog">
-                            <span slot="trigger">Select Fruit</span>
-                        </lux-dropdown>
+                        <lux-select id="dd-prog" .placeholder=${phSelect}></lux-select>
                         <lux-button
                             @click=${() => {
                                 const dd = this.$('#dd-prog');
@@ -118,9 +119,7 @@ class PageComponentsDropdown extends LuxElement {
                 <div slot="footer">
                     <lux-code
                         language="html"
-                        .code=${`<lux-dropdown id="dd">
-    <span slot="trigger">Select Fruit</span>
-</lux-dropdown>
+                        .code=${`<lux-select id="dd" placeholder="..."></lux-select>
 
 <script>
 const dd = document.getElementById('dd');
@@ -137,57 +136,71 @@ dd.value = 'banana';
             </lux-example>
 
             <lux-example>
-                <span slot="heading">${msg('dd.clearable')}</span>
+                <span slot="heading">${msg('select.clearable')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-dropdown clearable .options=${fruitOptions}>
-                            <span slot="trigger">Select Fruit</span>
-                        </lux-dropdown>
+                        <lux-select
+                            clearable
+                            .placeholder=${phSelect}
+                            .options=${fruitOptions}
+                        ></lux-select>
                     </div>
                 </div>
                 <div slot="footer">
                     <lux-code
                         language="html"
-                        .code=${`<lux-dropdown clearable .options=${'...'}>
-    <span slot="trigger">Select Fruit</span>
-</lux-dropdown>`}
+                        .code=${`<lux-select clearable placeholder="..." .options=${'...'}></lux-select>`}
                     ></lux-code>
                 </div>
             </lux-example>
 
             <lux-example>
-                <span slot="heading">${msg('dd.size')}</span>
+                <span slot="heading">${msg('select.disabled')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-dropdown size="sm" .options=${fruitOptions}>
-                            <span slot="trigger">Small</span>
-                        </lux-dropdown>
-                    </div>
-                    <div class="demo-row">
-                        <lux-dropdown .options=${fruitOptions}>
-                            <span slot="trigger">Medium</span>
-                        </lux-dropdown>
-                    </div>
-                    <div class="demo-row">
-                        <lux-dropdown size="lg" .options=${fruitOptions}>
-                            <span slot="trigger">Large</span>
-                        </lux-dropdown>
+                        <lux-select
+                            disabled
+                            value="apple"
+                            .placeholder=${phSelect}
+                            .options=${fruitOptions}
+                        ></lux-select>
                     </div>
                 </div>
                 <div slot="footer">
                     <lux-code
                         language="html"
-                        .code=${`<lux-dropdown size="sm" .options=${'...'}>
-    <span slot="trigger">Small</span>
-</lux-dropdown>
+                        .code=${`<lux-select disabled value="apple" placeholder="..." .options=${'...'}></lux-select>`}
+                    ></lux-code>
+                </div>
+            </lux-example>
 
-<lux-dropdown .options=${'...'}>
-    <span slot="trigger">Medium</span>
-</lux-dropdown>
-
-<lux-dropdown size="lg" .options=${'...'}>
-    <span slot="trigger">Large</span>
-</lux-dropdown>`}
+            <lux-example>
+                <span slot="heading">${msg('select.sizes')}</span>
+                <div slot="main">
+                    <div class="demo-row">
+                        <lux-select
+                            size="sm"
+                            .placeholder=${phSelect}
+                            .options=${fruitOptions}
+                        ></lux-select>
+                    </div>
+                    <div class="demo-row">
+                        <lux-select .placeholder=${phSelect} .options=${fruitOptions}></lux-select>
+                    </div>
+                    <div class="demo-row">
+                        <lux-select
+                            size="lg"
+                            .placeholder=${phSelect}
+                            .options=${fruitOptions}
+                        ></lux-select>
+                    </div>
+                </div>
+                <div slot="footer">
+                    <lux-code
+                        language="html"
+                        .code=${`<lux-select size="sm" placeholder="..." .options=${'...'}></lux-select>
+<lux-select placeholder="..." .options=${'...'}></lux-select>
+<lux-select size="lg" placeholder="..." .options=${'...'}></lux-select>`}
                     ></lux-code>
                 </div>
             </lux-example>
@@ -208,19 +221,25 @@ dd.value = 'banana';
                             <td><code>options</code></td>
                             <td>Array</td>
                             <td><code>[]</code></td>
-                            <td>${msg('dd.options.desc')}</td>
+                            <td>${msg('select.prop.options')}</td>
                         </tr>
                         <tr>
                             <td><code>value</code></td>
                             <td>String</td>
                             <td><code>''</code></td>
-                            <td>${msg('dd.value.desc')}</td>
+                            <td>${msg('select.prop.value')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>placeholder</code></td>
+                            <td>String</td>
+                            <td><code>''</code></td>
+                            <td>${msg('select.prop.placeholder')}</td>
                         </tr>
                         <tr>
                             <td><code>clearable</code></td>
                             <td>Boolean</td>
                             <td><code>false</code></td>
-                            <td>${msg('dd.clearable.desc')}</td>
+                            <td>${msg('select.prop.clearable')}</td>
                         </tr>
                         <tr>
                             <td><code>open</code></td>
@@ -232,25 +251,7 @@ dd.value = 'banana';
                             <td><code>size</code></td>
                             <td>String</td>
                             <td><code>md</code></td>
-                            <td>${msg('dd.size.desc')}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </lux-table>
-
-            <h2 style="margin-top:56px">${msg('common.slots')}</h2>
-            <lux-table border row-border stripe>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>${msg('common.props')}</th>
-                            <th>${msg('common.description')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>trigger</code></td>
-                            <td>触发器内容，显示在按钮中</td>
+                            <td>${msg('select.prop.size')}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -270,12 +271,12 @@ dd.value = 'banana';
                         <tr>
                             <td><code>change</code></td>
                             <td><code>{ value, label }</code></td>
-                            <td>${msg('dd.change.desc')}</td>
+                            <td>${msg('select.event.change')}</td>
                         </tr>
                         <tr>
                             <td><code>clear</code></td>
                             <td>—</td>
-                            <td>${msg('dd.clear.desc')}</td>
+                            <td>${msg('select.event.clear')}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -283,4 +284,4 @@ dd.value = 'banana';
         `;
     }
 }
-export default PageComponentsDropdown;
+export default PageComponentsSelect;

@@ -263,14 +263,14 @@ class PageHome extends LuxElement {
 
             <div class="features-grid">
                 ${features.map(
-            (f) => html`
-                <div class="feature-card">
-                    <div class="feature-icon">${f.icon}</div>
-                    <h3>${msg(f.titleKey)}</h3>
-                    <p>${msg(f.descKey)}</p>
-                </div>
-            `
-        )}
+                    (f) => html`
+                        <div class="feature-card">
+                            <div class="feature-icon">${f.icon}</div>
+                            <h3>${msg(f.titleKey)}</h3>
+                            <p>${msg(f.descKey)}</p>
+                        </div>
+                    `
+                )}
             </div>
         `;
     }

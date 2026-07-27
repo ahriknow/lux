@@ -71,6 +71,23 @@ const styles = css`
         font-size: 13px;
         color: rgb(var(--lux-text-secondary));
     }
+    .theme-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: rgb(var(--lux-text-secondary));
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+    .theme-btn:hover {
+        background: rgb(var(--lux-hover));
+        color: rgb(var(--lux-text));
+    }
 
     .footer-inner {
         padding: 10px 24px;
@@ -121,13 +138,16 @@ class PageComponents extends LuxElement {
             { key: 'menu', label: 'Menu', icon: 'menu' },
             { key: 'scroll', label: 'Scroll', icon: 'swap_vert' },
             { key: 'example', label: 'Example', icon: 'visibility' },
-            { key: 'divider1', divider: true },
+            { key: 'divider2', divider: true },
             { key: 'button', label: 'Button', icon: 'smart_button' },
             { key: 'input', label: 'Input', icon: 'edit' },
+            { key: 'radio', label: 'Radio', icon: 'check_circle' },
             { key: 'switch', label: 'Switch', icon: 'toggle_on' },
+            { key: 'select', label: 'Select', icon: 'list' },
             { key: 'dropdown', label: 'Dropdown', icon: 'arrow_down' },
+            { key: 'item-group', label: 'Item Group', icon: 'view_module' },
             { key: 'icon', label: 'Icon', icon: 'star' },
-            { key: 'divider1', divider: true },
+            { key: 'divider3', divider: true },
             { key: 'table', label: 'Table', icon: 'table_chart' },
             { key: 'code', label: 'Code', icon: 'code' },
         ];
@@ -191,6 +211,16 @@ class PageComponents extends LuxElement {
         location.reload();
     }
 
+    _cycleLang() {
+        const langs = ['zh-CN', 'ru', 'en'];
+        const current = localStorage.getItem('lux-lang') || 'zh-CN';
+        const idx = langs.indexOf(current);
+        const next = langs[(idx + 1) % langs.length];
+        i18n.setLocale(next);
+        localStorage.setItem('lux-lang', next);
+        location.reload();
+    }
+
     render() {
         return html`
             <lux-layout aside-width="200px" aside-min="160px" aside-max="320px">
@@ -227,18 +257,29 @@ class PageComponents extends LuxElement {
                     ></a>
                     <div class="theme-toggle">
                         <lux-dropdown
-                            id="lang-dd"
-                            .placeholder=${msg('nav.lang')}
+                            ghost
                             .options=${[
-                  { value: 'zh-CN', label: msg('nav.lang.zh') },
-                  { value: 'ru', label: msg('nav.lang.ru') },
-                  { value: 'en', label: msg('nav.lang.en') },
-              ]}
-                            clearable
-                            @change=${(e) => this._onLangChange(e)}
-                            @clear=${(e) => this._onLangClear(e)}
-                        ></lux-dropdown>
-                        <span>${this._dark ? msg('nav.light') : msg('nav.dark')}</span>
+                                { value: 'zh-CN', label: msg('nav.lang.zh') },
+                                { value: 'ru', label: msg('nav.lang.ru') },
+                                { value: 'en', label: msg('nav.lang.en') },
+                            ]}
+                            @change=${this._onLangChange.bind(this)}
+                        >
+                            <span
+                                slot="trigger"
+                                .title=${msg('nav.lang')}
+                                style="display:inline-flex;align-items:center;cursor:pointer;color:rgb(var(--lux-text-secondary))"
+                                ><svg
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 1024 1024"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M640 416h256c35.328 0 64 28.4672 64 64V896c0 35.328-28.4672 64-64 64H480c-35.328 0-64-28.4672-64-64v-256h128c53.2992 0 96-43.008 96-96v-128zM64 128c0-35.328 28.4672-64 64-64h416c35.328 0 64 28.4672 64 64v416c0 35.328-28.4672 64-64 64H128c-35.328 0-64-28.4672-64-64V128z m128 276.2752h46.6944v-24.7808H306.176v118.272h49.5104v-118.272h68.7616v20.6336h50.8928V243.3536H355.6352v-34.3552c0-10.0864 1.3824-18.7904 4.096-26.112a10.5472 10.5472 0 0 0 1.3824-4.1472c0-0.9216-3.1744-1.792-9.5744-2.7648H304.64v67.3792H192v160.9216z m46.6944-122.368H306.176v60.416H238.7456v-60.416z m185.7024 60.416H355.6352v-60.416h68.7616v60.4672z m203.8272 488.0384l19.2512-53.6064h100.352l19.3024 53.6064h54.9888L732.672 576H668.16l-92.1088 254.4128h52.224z m33.024-96.256l37.12-108.5952h1.3824l34.3552 108.5952h-72.8576zM896 320h-64a128 128 0 0 0-128-128V128a192 192 0 0 1 192 192z m-768 384h64a128 128 0 0 0 128 128v64a192 192 0 0 1-192-192z"
+                                    /></svg
+                            ></span>
+                        </lux-dropdown>
                         <lux-switch
                             .checked=${this._dark}
                             @change=${(e) => this._toggleTheme(e)}

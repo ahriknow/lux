@@ -379,6 +379,41 @@ class PageComponentsSwitch extends LuxElement {
                     </tbody>
                 </table>
             </lux-table>
+
+            <h2 style="margin-top:56px">${msg('common.cssVars')}</h2>
+            <lux-table border row-border stripe>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>${msg('common.props')}</th>
+                            <th>${msg('common.default')}</th>
+                            <th>${msg('common.description')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--sw-w</code></td>
+                            <td><code>44px</code></td>
+                            <td>${msg('switch.var.swW')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--sw-h</code></td>
+                            <td><code>24px</code></td>
+                            <td>${msg('switch.var.swH')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--sw-thumb</code></td>
+                            <td><code>18px</code></td>
+                            <td>${msg('switch.var.swThumb')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--sw-font</code></td>
+                            <td><code>12px</code></td>
+                            <td>${msg('switch.var.swFont')}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lux-table>
         `;
     }
 }

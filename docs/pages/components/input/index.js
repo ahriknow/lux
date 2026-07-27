@@ -62,6 +62,31 @@ const styles = css`
 class PageComponentsInput extends LuxElement {
     static styles = styles;
     render() {
+        const ph = {
+            enter: msg('input.ph.enter'),
+            controlled: msg('input.ph.controlled'),
+            text: msg('input.ph.text'),
+            password: msg('input.ph.password'),
+            number: msg('input.ph.number'),
+            email: msg('input.ph.email'),
+            small: msg('input.ph.small'),
+            medium: msg('input.ph.medium'),
+            large: msg('input.ph.large'),
+            clear: msg('input.ph.clear'),
+            disabled: msg('input.ph.disabled'),
+            invalid: msg('input.ph.invalid'),
+            success: msg('input.ph.success'),
+            info: msg('input.ph.info'),
+            warning: msg('input.ph.warning'),
+            error: msg('input.ph.error'),
+            regexEmail: msg('input.ph.regexEmail'),
+            regexPhone: msg('input.ph.regexPhone'),
+            regexSuccess: msg('input.ph.regexSuccess'),
+            search: msg('input.ph.search'),
+            url: msg('input.ph.url'),
+            amount: msg('input.ph.amount'),
+        };
+
         return html`
             <h1>${msg('input.title')}</h1>
             <p class="subtitle">${msg('input.subtitle')}</p>
@@ -70,7 +95,7 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.basic')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input placeholder="Enter text..."></lux-input>
+                        <lux-input .placeholder=${ph.enter}></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -85,7 +110,7 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.value')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input placeholder="Controlled value" value="Hello Lux"></lux-input>
+                        <lux-input .placeholder=${ph.controlled} value="Hello Lux"></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -100,10 +125,10 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.types')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input type="text" placeholder="Text"></lux-input>
-                        <lux-input type="password" placeholder="Password"></lux-input>
-                        <lux-input type="number" placeholder="Number"></lux-input>
-                        <lux-input type="email" placeholder="Email"></lux-input>
+                        <lux-input type="text" .placeholder=${ph.text}></lux-input>
+                        <lux-input type="password" .placeholder=${ph.password}></lux-input>
+                        <lux-input type="number" .placeholder=${ph.number}></lux-input>
+                        <lux-input type="email" .placeholder=${ph.email}></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -121,9 +146,9 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.sizes')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input size="sm" placeholder="Small"></lux-input>
-                        <lux-input placeholder="Medium (default)"></lux-input>
-                        <lux-input size="lg" placeholder="Large"></lux-input>
+                        <lux-input size="sm" .placeholder=${ph.small}></lux-input>
+                        <lux-input .placeholder=${ph.medium}></lux-input>
+                        <lux-input size="lg" .placeholder=${ph.large}></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -140,11 +165,7 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.clearable')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input
-                            placeholder="Hover to show clear"
-                            value="Clear me"
-                            clearable
-                        ></lux-input>
+                        <lux-input .placeholder=${ph.clear} value="Clear me" clearable></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -159,7 +180,7 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.disabled')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input placeholder="Disabled" disabled></lux-input>
+                        <lux-input .placeholder=${ph.disabled} disabled></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -175,7 +196,7 @@ class PageComponentsInput extends LuxElement {
                 <div slot="main">
                     <div class="demo-col">
                         <lux-input
-                            placeholder="Invalid input"
+                            .placeholder=${ph.invalid}
                             error="This field is required"
                         ></lux-input>
                     </div>
@@ -193,17 +214,25 @@ class PageComponentsInput extends LuxElement {
                 <div slot="main">
                     <div class="demo-col">
                         <lux-input
-                            placeholder="Success"
+                            .placeholder=${ph.success}
                             status="success"
                             value="Valid input"
                         ></lux-input>
-                        <lux-input placeholder="Info" status="info" value="Information"></lux-input>
                         <lux-input
-                            placeholder="Warning"
+                            .placeholder=${ph.info}
+                            status="info"
+                            value="Information"
+                        ></lux-input>
+                        <lux-input
+                            .placeholder=${ph.warning}
                             status="warning"
                             value="Check this"
                         ></lux-input>
-                        <lux-input placeholder="Error" status="error" value="Invalid"></lux-input>
+                        <lux-input
+                            .placeholder=${ph.error}
+                            status="error"
+                            value="Invalid"
+                        ></lux-input>
                     </div>
                 </div>
                 <div slot="footer">
@@ -222,17 +251,17 @@ class PageComponentsInput extends LuxElement {
                 <div slot="main">
                     <div class="demo-col">
                         <lux-input
-                            placeholder="Email (regex)"
+                            .placeholder=${ph.regexEmail}
                             regex="^[\\w.-]+@[\\w.-]+\\.\\w{2,}$"
                             regex-status="error"
                         ></lux-input>
                         <lux-input
-                            placeholder="Phone (regex, warning)"
+                            .placeholder=${ph.regexPhone}
                             regex="^\\d{10,}$"
                             regex-status="warning"
                         ></lux-input>
                         <lux-input
-                            placeholder="Always success"
+                            .placeholder=${ph.regexSuccess}
                             status="success"
                             regex="^\\d+$"
                         ></lux-input>
@@ -266,17 +295,17 @@ class PageComponentsInput extends LuxElement {
                 <span slot="heading">${msg('input.prefixSuffix')}</span>
                 <div slot="main">
                     <div class="demo-col">
-                        <lux-input placeholder="Search...">
+                        <lux-input .placeholder=${ph.search}>
                             <lux-icon slot="prefix" name="search" size="16px"></lux-icon>
                         </lux-input>
-                        <lux-input placeholder="Enter URL">
+                        <lux-input .placeholder=${ph.url}>
                             <span
                                 slot="prefix"
                                 style="color:rgb(var(--lux-text-muted));font-size:13px"
                                 >https://</span
                             >
                         </lux-input>
-                        <lux-input placeholder="Amount" value="100">
+                        <lux-input .placeholder=${ph.amount} value="100">
                             <span
                                 slot="suffix"
                                 style="color:rgb(var(--lux-text-muted));font-size:13px"
@@ -311,15 +340,15 @@ class PageComponentsInput extends LuxElement {
                 <div slot="main">
                     <div class="demo-col">
                         <lux-input
-                            placeholder="Type something..."
+                            placeholder=${msg('input.ph.enter')}
                             @input=${(e) => {
-                  const log = this.renderRoot.querySelector('#input-event-log');
-                  if (log) log.textContent = `input: "${e.detail.value}"`;
-              }}
+                                const log = this.renderRoot.querySelector('#input-event-log');
+                                if (log) log.textContent = `input: "${e.detail.value}"`;
+                            }}
                             @change=${(e) => {
-                  const log = this.renderRoot.querySelector('#input-event-log');
-                  if (log) log.textContent = `change: "${e.detail.value}"`;
-              }}
+                                const log = this.renderRoot.querySelector('#input-event-log');
+                                if (log) log.textContent = `change: "${e.detail.value}"`;
+                            }}
                         ></lux-input>
                         <span
                             id="input-event-log"

@@ -96,9 +96,9 @@ class LuxExample extends LuxElement {
                 <button
                     class="toggle-btn"
                     @click=${(e) => {
-              e.stopPropagation();
-              this._toggle();
-          }}
+                        e.stopPropagation();
+                        this._toggle();
+                    }}
                 >
                     <span class="toggle-icon">▼</span>
                 </button>

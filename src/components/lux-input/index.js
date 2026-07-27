@@ -8,7 +8,8 @@ const CLEAR_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="c
 
 const styles = css`
     :host {
-        display: inline-block;
+        display: inline-flex;
+        align-items: stretch;
         width: 100%;
         font-size: 13px;
         vertical-align: middle;
@@ -18,6 +19,8 @@ const styles = css`
         display: flex;
         align-items: center;
         gap: 0;
+        flex: 1;
+        min-width: 0;
         border: 1px solid rgb(var(--lux-border, 226 232 240));
         border-radius: var(--lux-radius, 6px);
         background: rgb(var(--lux-card, 255 255 255));
@@ -129,8 +132,8 @@ const styles = css`
         color: rgb(var(--lux-text, 15 23 42));
         font-size: inherit;
         font-family: inherit;
-        padding: 6px 8px;
-        line-height: 1.5;
+        padding: 8px 8px;
+        line-height: 1;
         width: 100%;
     }
 
@@ -198,7 +201,7 @@ const styles = css`
         border-radius: var(--lux-radius-sm, 4px);
     }
     :host([size='sm']) input {
-        padding: 4px 8px;
+        padding: 7px 8px;
         font-size: 12px;
     }
     :host([size='sm']) .prefix {
@@ -213,7 +216,7 @@ const styles = css`
         border-radius: var(--lux-radius, 6px);
     }
     :host([size='lg']) input {
-        padding: 10px 12px;
+        padding: 12px 12px;
         font-size: 15px;
     }
     :host([size='lg']) .prefix {

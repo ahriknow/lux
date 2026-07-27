@@ -332,15 +332,19 @@ class LuxScroll extends LuxElement {
                 <div class="scroll-thumb"></div>
             </div>
             ${
-          this.showButtons
-              ? html`
-                    <div class="scroll-buttons">
-                        <button class="scroll-btn" @click=${() => this.scrollToTop()}>▲</button>
-                        <button class="scroll-btn" @click=${() => this.scrollToBottom()}>▼</button>
-                    </div>
-                `
-              : ''
-      }
+                this.showButtons
+                    ? html`
+                          <div class="scroll-buttons">
+                              <button class="scroll-btn" @click=${() => this.scrollToTop()}>
+                                  ▲
+                              </button>
+                              <button class="scroll-btn" @click=${() => this.scrollToBottom()}>
+                                  ▼
+                              </button>
+                          </div>
+                      `
+                    : ''
+            }
         `;
     }
 }

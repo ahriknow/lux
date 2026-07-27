@@ -313,23 +313,23 @@ class PageComponentsIntro extends LuxElement {
             <h2>${msg('intro.components')}</h2>
             <div class="grid">
                 ${COMPONENTS.map(
-            (item) => html`
-                <a
-                    class="card"
-                    href=${`#/components/${item.key}`}
-                    @click=${(e) => {
-                  e.preventDefault();
-                  location.hash = '#/components/' + item.key;
-              }}
-                >
-                    <div class="card-icon">
-                        <lux-icon .name=${item.icon} size="20px"></lux-icon>
-                    </div>
-                    <div class="card-name">${item.name}</div>
-                    <div class="card-desc">${this._desc(item)}</div>
-                </a>
-            `
-        )}
+                    (item) => html`
+                        <a
+                            class="card"
+                            href=${`#/components/${item.key}`}
+                            @click=${(e) => {
+                                e.preventDefault();
+                                location.hash = '#/components/' + item.key;
+                            }}
+                        >
+                            <div class="card-icon">
+                                <lux-icon .name=${item.icon} size="20px"></lux-icon>
+                            </div>
+                            <div class="card-name">${item.name}</div>
+                            <div class="card-desc">${this._desc(item)}</div>
+                        </a>
+                    `
+                )}
             </div>
         `;
     }

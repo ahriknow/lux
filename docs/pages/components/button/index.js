@@ -324,6 +324,46 @@ class PageComponentsButton extends LuxElement {
                     </tbody>
                 </table>
             </lux-table>
+
+            <h2 style="margin-top:56px">${msg('common.cssVars')}</h2>
+            <lux-table border row-border stripe>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>${msg('common.props')}</th>
+                            <th>${msg('common.default')}</th>
+                            <th>${msg('common.description')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--btn-py</code></td>
+                            <td><code>8px</code></td>
+                            <td>${msg('btn.var.btnPy')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--btn-px</code></td>
+                            <td><code>16px</code></td>
+                            <td>${msg('btn.var.btnPx')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--btn-font</code></td>
+                            <td><code>13px</code></td>
+                            <td>${msg('btn.var.btnFont')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--btn-gap</code></td>
+                            <td><code>8px</code></td>
+                            <td>${msg('btn.var.btnGap')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>--icon-size</code></td>
+                            <td><code>36px</code></td>
+                            <td>${msg('btn.var.iconSize')}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lux-table>
         `;
     }
 }

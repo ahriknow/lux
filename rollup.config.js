@@ -16,6 +16,7 @@ const components = [
   "lux-item-group",
   "lux-icon",
   "lux-table",
+  "lux-pagination",
   "lux-code",
 ];
 

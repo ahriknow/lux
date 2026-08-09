@@ -51,7 +51,7 @@ const styles = css`
         box-sizing: border-box;
     }
     .btn:active {
-        transform: translateY(1px);
+        filter: brightness(0.92);
     }
 
     /* ── Default (primary solid) ── */

@@ -33,6 +33,10 @@ const styles = css`
     ::slotted(:not(:first-child)) {
         margin-left: -1px;
     }
+    ::slotted([focused]) {
+        position: relative;
+        z-index: 1;
+    }
     ::slotted(:first-child) {
         --btn-radius: var(--group-radius, 6px) 0 0 var(--group-radius, 6px);
         --lux-radius: var(--group-radius, 6px) 0 0 var(--group-radius, 6px);
@@ -53,6 +57,10 @@ const styles = css`
     :host([vertical]) ::slotted(:not(:first-child)) {
         margin-left: 0;
         margin-top: -1px;
+    }
+    :host([vertical]) ::slotted([focused]) {
+        position: relative;
+        z-index: 1;
     }
     :host([vertical]) ::slotted(:first-child) {
         --btn-radius: var(--group-radius, 6px) var(--group-radius, 6px) 0 0;

@@ -28,7 +28,9 @@
   ],
   "scripts": {
     "build": "rollup -c && node -e \"const fs=require('fs'),p=require('path');['docs/themes','dist/themes'].forEach(d=>{fs.mkdirSync(d,{recursive:true});fs.readdirSync('src/themes').filter(f=>f.endsWith('.css')).forEach(f=>fs.copyFileSync(p.join('src/themes',f),p.join(d,f)))})\"",
-    "dev": "npx serve ./docs -l 6001",
+    "dev": "rollup -c rollup.dev.config.js --watch & npx serve ./docs -l 6001",
+    "dev:build": "rollup -c rollup.dev.config.js --watch",
+    "dev:serve": "npx serve ./docs -l 6001",
     "format": "prettier --write \"src/**/*.js\" \"docs/**/*.js\"",
     "format:check": "prettier --check \"src/**/*.js\" \"docs/**/*.js\""
   },

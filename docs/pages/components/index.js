@@ -149,6 +149,7 @@ class PageComponents extends LuxElement {
             { key: 'icon', label: 'Icon', icon: 'star' },
             { key: 'divider3', divider: true },
             { key: 'table', label: 'Table', icon: 'table_chart' },
+            { key: 'pagination', label: 'Pagination', icon: 'pagination' },
             { key: 'code', label: 'Code', icon: 'code' },
         ];
     }

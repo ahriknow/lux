@@ -98,7 +98,7 @@
     const compIcon = () => import('./pages/components/icon/index.js');
     const compTable = () => import('./pages/components/table/index.js');
     const compCode = () => import('./pages/components/code/index.js');
-
+            const compPagination = () => import('./pages/components/pagination/index.js');
     // ─── Routes ───
     createRouter({
       routes: [
@@ -129,6 +129,7 @@
             { path: '/item-group', component: compItemGroup },
             { path: '/icon', component: compIcon },
             { path: '/table', component: compTable },
+            { path: '/pagination', component: compPagination },
             { path: '/code', component: compCode },
           ]
         },

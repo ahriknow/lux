@@ -117,7 +117,9 @@ class Router {
 
     start() {
         window.addEventListener('hashchange', this._onHashChange);
-        this._resolve();
+        // 延迟到微任务：createRouter 返回后同步注册的 beforeEach 必须先于首次
+        // resolve 执行——否则初始加载（深链/刷新）时 guards 还是空数组，守卫不生效
+        queueMicrotask(() => this._resolve());
     }
 
     stop() {
@@ -257,6 +259,15 @@ class Router {
     }
 }
 
+/** 浅比较路由参数（同路由不同参数必须触发重建） */
+function paramsEqual(a, b) {
+    if (a === b) return true;
+    if (!a || !b) return false;
+    const ka = Object.keys(a);
+    if (ka.length !== Object.keys(b).length) return false;
+    return ka.every((k) => a[k] === b[k]);
+}
+
 // ─── Create router + register <router-outlet> ───
 
 export function createRouter(options) {
@@ -284,8 +295,13 @@ export function createRouter(options) {
                     return;
                 }
 
-                // Skip re-render if the same route is already rendered
-                if (this._lastRoute === match.route) {
+                // Skip re-render only when route AND params are unchanged.
+                // Same route with different params (e.g. /i/6 → /i/2) must
+                // rebuild, otherwise the component keeps stale params/state.
+                if (
+                    this._lastRoute === match.route &&
+                    paramsEqual(this._lastParams, match.params)
+                ) {
                     return;
                 }
 
@@ -303,6 +319,7 @@ export function createRouter(options) {
                         if (match.query) el.query = match.query;
                         this.appendChild(el);
                         this._lastRoute = match.route;
+                        this._lastParams = match.params;
                     }
                 } catch (e) {
                     if (!controller.signal.aborted) {

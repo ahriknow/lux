@@ -185,7 +185,10 @@ class LuxDropdown extends LuxElement {
     }
 
     _onDocClick(e) {
-        if (!this.contains(e.target)) {
+        // e.target 跨 shadow 边界会被 retarget 成外层宿主（如页面组件），
+        // contains() 会把组件内点击误判为外部点击而关掉菜单；
+        // composedPath() 返回真实事件路径（含 shadow 内节点），以它判断归属
+        if (!e.composedPath().includes(this)) {
             this.open = false;
         }
     }

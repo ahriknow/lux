@@ -15,9 +15,17 @@ const components = [
   "lux-dropdown",
   "lux-item-group",
   "lux-icon",
+  "lux-timeline",
+  "lux-modal",
+  "lux-upload",
+  "lux-textarea",
+  "lux-color-picker",
+  "lux-date-picker",
   "lux-table",
   "lux-pagination",
   "lux-code",
+  "lux-collapse",
+  "lux-tree",
 ];
 
 const compName = (name) => name.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join('');

@@ -96,9 +96,17 @@
     const compDropdown = () => import('./pages/components/dropdown/index.js');
     const compItemGroup = () => import('./pages/components/item-group/index.js');
     const compIcon = () => import('./pages/components/icon/index.js');
+    const compTimeline = () => import('./pages/components/timeline/index.js');
+    const compModal = () => import('./pages/components/modal/index.js');
+    const compUpload = () => import('./pages/components/upload/index.js');
+    const compTextarea = () => import('./pages/components/textarea/index.js');
+    const compColorPicker = () => import('./pages/components/color-picker/index.js');
+    const compDatePicker = () => import('./pages/components/date-picker/index.js');
+    const compCollapse = () => import('./pages/components/collapse/index.js');
+    const compTree = () => import('./pages/components/tree/index.js');
     const compTable = () => import('./pages/components/table/index.js');
     const compCode = () => import('./pages/components/code/index.js');
-            const compPagination = () => import('./pages/components/pagination/index.js');
+    const compPagination = () => import('./pages/components/pagination/index.js');
     // ─── Routes ───
     createRouter({
       routes: [
@@ -128,6 +136,14 @@
             { path: '/dropdown', component: compDropdown },
             { path: '/item-group', component: compItemGroup },
             { path: '/icon', component: compIcon },
+            { path: '/timeline', component: compTimeline },
+            { path: '/modal', component: compModal },
+            { path: '/upload', component: compUpload },
+            { path: '/textarea', component: compTextarea },
+            { path: '/color-picker', component: compColorPicker },
+            { path: '/date-picker', component: compDatePicker },
+            { path: '/collapse', component: compCollapse },
+            { path: '/tree', component: compTree },
             { path: '/table', component: compTable },
             { path: '/pagination', component: compPagination },
             { path: '/code', component: compCode },

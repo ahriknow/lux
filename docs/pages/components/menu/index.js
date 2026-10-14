@@ -195,7 +195,7 @@ html\`<lux-menu .items=\${items} active-key=&quot;home&quot;></lux-menu>\`"
                     <thead>
                         <tr>
                             <th>${msg('common.events')}</th>
-                            <th>Detail</th>
+                            <th>${msg('common.detail')}</th>
                             <th>${msg('common.description')}</th>
                         </tr>
                     </thead>
@@ -214,8 +214,8 @@ html\`<lux-menu .items=\${items} active-key=&quot;home&quot;></lux-menu>\`"
                 <table>
                     <thead>
                         <tr>
-                            <th>Field</th>
-                            <th>Type</th>
+                            <th>${msg('common.field')}</th>
+                            <th>${msg('common.type')}</th>
                             <th>${msg('common.description')}</th>
                         </tr>
                     </thead>

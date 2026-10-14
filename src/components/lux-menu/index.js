@@ -262,7 +262,7 @@ class LuxMenu extends LuxElement {
             return html`
                 <div
                     class=${classMap({ item: true, active: isAct, disabled: item.disabled })}
-                    data-label="${item.label || ''}"
+                    data-label=${item.label || ''}
                     @click=${() => this._onItemClick(item)}
                 >
                     ${item.icon ? html`<span class="item-icon"><lux-icon .name=${item.icon} size="20px"></lux-icon></span>` : ''}

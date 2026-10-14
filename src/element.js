@@ -406,7 +406,9 @@ export class LuxElement extends HTMLElement {
 
     update(_changedProperties) {
         const result = this.render();
-        if (result) {
+        // ''/false/null must also commit (e.g. when() returning '' must clear the
+        // previous template); only undefined skips — default render() returns it.
+        if (result !== undefined) {
             render(result, this.renderRoot, { host: this });
         }
     }

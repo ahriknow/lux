@@ -302,7 +302,7 @@ class PageComponentsCode extends LuxElement {
                     <thead>
                         <tr>
                             <th>${msg('common.events')}</th>
-                            <th>Detail</th>
+                            <th>${msg('common.detail')}</th>
                             <th>${msg('common.description')}</th>
                         </tr>
                     </thead>

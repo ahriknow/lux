@@ -55,7 +55,11 @@ export function escapeHtml(value) {
 }
 
 // ─── Part marker regex ──
-const ATTR_BINDING_RE = /(?:([@.?][\w-]+)|(ref)|(class))=\s*$/;
+// 顺序敏感：ref/class 是语义绑定（不是普通属性），必须先于普通名匹配；
+// 普通属性（id= / placeholder= / href= 等，无 @.? 前缀）也走 attr part——
+// 不识别的话 ${} 会落成 child 注释，被浏览器吸进无引号属性值里，
+// 还会带着 `>` 提前闭合标签，丢掉后续所有属性（事件监听失效）。
+const ATTR_BINDING_RE = /(?:(ref)|(class)|([@.?]?[\w-]+))=\s*$/;
 
 // ─── Template parsing ──
 function parseTemplate(strings) {
@@ -66,20 +70,26 @@ function parseTemplate(strings) {
         if (i < strings.length - 1) {
             const attrMatch = html.match(ATTR_BINDING_RE);
             if (attrMatch) {
-                const prefixed = attrMatch[1];
-                const isRef = !!attrMatch[2];
-                const isClass = !!attrMatch[3];
+                const isRef = !!attrMatch[1];
+                const isClass = !!attrMatch[2];
+                const rawName = attrMatch[3];
                 let prefix = '';
                 let name = '';
-                if (prefixed) {
-                    prefix = prefixed[0];
-                    name = prefixed.slice(1);
-                } else if (isRef) {
+                if (isRef) {
                     prefix = 'ref';
                     name = 'ref';
                 } else if (isClass) {
                     prefix = 'class';
                     name = 'class';
+                } else if (rawName) {
+                    const c0 = rawName[0];
+                    if (c0 === '@' || c0 === '.' || c0 === '?') {
+                        prefix = c0;
+                        name = rawName.slice(1);
+                    } else {
+                        prefix = '';
+                        name = rawName;
+                    }
                 }
                 const marker = `lux-attr-${i}`;
                 html = html.slice(0, -attrMatch[0].length) + `${marker}="${name}" `;
@@ -138,6 +148,10 @@ function commitValue(container, value, context) {
     // Primitive — replace content (don't append)
     if (container.childNodes.length === 1 && container.firstChild.nodeType === Node.TEXT_NODE) {
         container.firstChild.textContent = String(value);
+        // DOM 内容已变：失效模板增量标记，避免下次同 strings 模板命中过期 parts
+        container._luxActiveParts = undefined;
+        container._luxStrings = undefined;
+        container._repeatState = undefined;
     } else {
         clearContainer(container);
         container.appendChild(document.createTextNode(String(value)));
@@ -148,6 +162,12 @@ function clearContainer(container) {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
+    // DOM 已清空：过期的模板增量标记 / repeat 状态必须一并失效，
+    // 否则下次同 strings 模板会走增量路径，把内容提交进已销毁的孤儿节点
+    // （表现为 conditional 渲染块切换后内容消失且无报错）
+    container._luxActiveParts = undefined;
+    container._luxStrings = undefined;
+    container._repeatState = undefined;
 }
 
 function commitAttrPart(part, value) {
@@ -256,6 +276,11 @@ function commitAttrPart(part, value) {
 export function render(result, container, context) {
     if (!isTemplateResult(result)) {
         container.textContent = result ?? '';
+        // 值类型从模板切到纯文本：作废旧的 part/repeat 状态（否则下次
+        // 模板渲染会命中脏的 _luxStrings 增量路径 → 残留/空白）
+        container._luxActiveParts = undefined;
+        container._luxStrings = undefined;
+        container._repeatState = undefined;
         return;
     }
 
@@ -336,32 +361,68 @@ function isRepeatResult(value) {
 function commitRepeat(container, value, context) {
     const { items, keyFn, renderFn } = value;
     const state = container._repeatState;
+    const prevEntries = state ? state.entries : [];
 
-    // Clear old content
-    if (state) {
-        for (const entry of state.entries) {
-            if (entry.span && entry.span.parentNode) {
-                entry.span.parentNode.removeChild(entry.span);
-            }
+    const newKeys = items.map((item) => keyFn(item));
+
+    // Fast path: key 序列完全一致 → 不动 DOM 结构，只增量更新每项内容。
+    // 全删重建会让内部的 input/焦点随节点移除而丢失（键入即失焦的根因）。
+    if (
+        prevEntries.length === newKeys.length &&
+        prevEntries.every((e, i) => e.key === newKeys[i])
+    ) {
+        const entries = [];
+        for (let i = 0; i < items.length; i++) {
+            const entry = prevEntries[i];
+            const result = renderFn(items[i]);
+            render(result, entry.span, context);
+            entries.push({ key: entry.key, result, span: entry.span });
         }
+        container._repeatState = { entries };
+        return;
     }
 
-    // Build new content
+    // Diff path: 结构变化——按 key 复用旧 span（保留内部 DOM/输入状态），只增删变化的项
+    const prevMap = new Map();
+    for (const e of prevEntries) {
+        if (e.span && !prevMap.has(e.key)) prevMap.set(e.key, e);
+    }
+
     const frag = document.createDocumentFragment();
     const entries = [];
-    for (const item of items) {
-        const key = keyFn(item);
-        const result = renderFn(item);
-        const span = document.createElement('span');
-        span.style.display = 'contents';
-        if (isTemplateResult(result)) {
+    const taken = new Set();
+    for (let i = 0; i < items.length; i++) {
+        const key = newKeys[i];
+        const result = renderFn(items[i]);
+        const canReuse =
+            !taken.has(key) && prevMap.has(key) && prevMap.get(key).span.parentNode === container;
+        taken.add(key);
+
+        let span;
+        if (canReuse) {
+            span = prevMap.get(key).span;
             render(result, span, context);
-        } else if (result != null && result !== false) {
-            span.appendChild(document.createTextNode(String(result)));
+        } else {
+            span = document.createElement('span');
+            span.style.display = 'contents';
+            if (isTemplateResult(result)) {
+                render(result, span, context);
+            } else if (result != null && result !== false) {
+                span.appendChild(document.createTextNode(String(result)));
+            }
         }
         frag.appendChild(span);
         entries.push({ key, result, span });
     }
+
+    // 移除不再使用的旧 span（按 span 身份判断，dup key 也安全）
+    const keep = new Set(entries.map((e) => e.span));
+    for (const e of prevEntries) {
+        if (e.span && !keep.has(e.span) && e.span.parentNode) {
+            e.span.parentNode.removeChild(e.span);
+        }
+    }
+
     container.appendChild(frag);
     container._repeatState = { entries };
 }

@@ -148,6 +148,14 @@ class PageComponents extends LuxElement {
             { key: 'item-group', label: 'Item Group', icon: 'view_module' },
             { key: 'icon', label: 'Icon', icon: 'star' },
             { key: 'divider3', divider: true },
+            { key: 'timeline', label: 'Timeline', icon: 'timeline' },
+            { key: 'modal', label: 'Modal', icon: 'open_in_full' },
+            { key: 'upload', label: 'Upload', icon: 'upload' },
+            { key: 'textarea', label: 'Textarea', icon: 'subject' },
+            { key: 'color-picker', label: 'Color Picker', icon: 'palette' },
+            { key: 'date-picker', label: 'Date Picker', icon: 'calendar' },
+            { key: 'collapse', label: 'Collapse', icon: 'unfold_more' },
+            { key: 'tree', label: 'Tree', icon: 'account_tree' },
             { key: 'table', label: 'Table', icon: 'table_chart' },
             { key: 'pagination', label: 'Pagination', icon: 'pagination' },
             { key: 'code', label: 'Code', icon: 'code' },
@@ -185,7 +193,7 @@ class PageComponents extends LuxElement {
 
     _getActiveKey() {
         const path = location.hash.slice(1) || '/';
-        const match = path.match(/\/components\/(\w+)/);
+        const match = path.match(/\/components\/([\w-]+)/);
         return match ? match[1] : '';
     }
 

@@ -32,6 +32,9 @@ const styles = css`
     .scroll-container {
         width: 100%;
         height: 100%;
+        box-sizing: border-box;
+        /* 右内边距给自定义滚动条轨道（right:4px, width:6px）让位，避免盖住内容右缘 */
+        padding-right: 12px;
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;

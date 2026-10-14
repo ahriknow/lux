@@ -237,7 +237,7 @@ html\`<lux-radio .options=\${fruitOptions} value="apple"\`}></lux-code>`}
                     <thead>
                         <tr>
                             <th>${msg('common.events')}</th>
-                            <th>Detail</th>
+                            <th>${msg('common.detail')}</th>
                             <th>${msg('common.description')}</th>
                         </tr>
                     </thead>

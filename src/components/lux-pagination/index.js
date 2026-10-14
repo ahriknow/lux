@@ -367,7 +367,7 @@ class LuxPagination extends LuxElement {
                 <input
                     type="number"
                     min="1"
-                    max="${this._totalPages}"
+                    max=${this._totalPages}
                     @keydown=${this._onJumpInput.bind(this)}
                 />
                 <span>${_t('page')}</span>

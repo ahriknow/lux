@@ -14,6 +14,24 @@ const fruitOptions = [
     { value: 'orange', label: 'Orange' },
 ];
 
+// 远程搜索演示数据：fetch(keyword) 模拟服务端过滤 + 随机延迟（竞态可观察）
+const DEMO_USERS = Array.from({ length: 24 }, (_, i) => {
+    const depts = ['平台组', '业务组', '基础设施', '质量保障'];
+    return {
+        value: `u${i + 1}`,
+        label: `用户 ${String(i + 1).padStart(2, '0')}`,
+        dept: depts[i % 4],
+    };
+});
+
+// 自定义 item 渲染演示数据
+const TEAM_OPTIONS = [
+    { value: 'core', label: '核心服务', color: 'danger', note: 'P0 值守' },
+    { value: 'web', label: '前端体验', color: 'primary', note: '组件库 / 文档' },
+    { value: 'infra', label: '基础设施', color: 'success', note: 'CI / 集群' },
+    { value: 'data', label: '数据平台', color: 'warning', note: '指标 / 报表' },
+];
+
 const styles = css`
     :host {
         display: block;
@@ -49,6 +67,29 @@ const styles = css`
 
 class PageComponentsSelect extends LuxElement {
     static styles = styles;
+    static properties = {
+        fetchCalls: { type: Number },
+        lastKw: { type: String },
+        fetchPicked: { type: String },
+    };
+
+    constructor() {
+        super();
+        this.fetchCalls = 0;
+        this.lastKw = '';
+        this.fetchPicked = '';
+    }
+
+    /** 模拟远程搜索：随机 150~750ms 延迟（演示防抖节流与过期响应丢弃） */
+    async _demoFetch(kw) {
+        this.fetchCalls++;
+        this.lastKw = kw;
+        await new Promise((r) => setTimeout(r, 150 + Math.random() * 600));
+        const q = kw.trim().toLowerCase();
+        return DEMO_USERS.filter(
+            (u) => !q || u.label.toLowerCase().includes(q) || u.dept.toLowerCase().includes(q)
+        );
+    }
 
     firstUpdated() {
         const progSelect = this.$('#dd-prog');
@@ -131,6 +172,95 @@ dd.options = [
 // 设置值
 dd.value = 'banana';
 </script>`}
+                    ></lux-code>
+                </div>
+            </lux-example>
+
+            <lux-example>
+                <span slot="heading">${msg('select.fetch')}</span>
+                <div slot="main">
+                    <div class="demo-row">
+                        <lux-select
+                            .placeholder=${msg('select.ph.search')}
+                            .fetch=${(kw) => this._demoFetch(kw)}
+                            .fetchDelay=${300}
+                            clearable
+                            @change=${(e) => (this.fetchPicked = e.detail.label)}
+                        ></lux-select>
+                        <span style="font-size: 12px; color: rgb(var(--lux-text-secondary))">
+                            ${msg('select.fetch.stat')} ${this.fetchCalls} · kw: “${this.lastKw}” ·
+                            ${msg('select.fetch.picked')}: ${this.fetchPicked || '—'}
+                        </span>
+                    </div>
+                </div>
+                <div slot="footer">
+                    <lux-code
+                        language="html"
+                        .code=${`<lux-select
+  placeholder="输入搜索…"
+  .fetch=${'${async (keyword) => api.search(keyword)}'} // 返回 options 数组
+  .fetchDelay=${'300'}                               // 防抖节流（毫秒）
+  @change=${'${(e) => console.log(e.detail)}'}
+></lux-select>`}
+                    ></lux-code>
+                </div>
+            </lux-example>
+
+            <lux-example>
+                <span slot="heading">${msg('select.searchable')}</span>
+                <div slot="main">
+                    <div class="demo-row">
+                        <lux-select
+                            searchable
+                            clearable
+                            .placeholder=${msg('select.ph.search')}
+                            .options=${fruitOptions}
+                            @change=${(e) => console.log(e.detail)}
+                        ></lux-select>
+                    </div>
+                </div>
+                <div slot="footer">
+                    <lux-code
+                        language="html"
+                        .code=${`<lux-select
+  searchable
+  .placeholder=${'"输入过滤…"'}
+  .options=${'OPTIONS'}
+></lux-select>`}
+                    ></lux-code>
+                </div>
+            </lux-example>
+
+            <lux-example>
+                <span slot="heading">${msg('select.custom')}</span>
+                <div slot="main">
+                    <div class="demo-row">
+                        <lux-select
+                            .placeholder=${msg('select.ph.select')}
+                            .options=${TEAM_OPTIONS}
+                            .itemRender=${(opt, selected) => html`
+                                <div style="display:flex;align-items:center;gap:8px;min-width:160px">
+                                    <span
+                                        style="width:8px;height:8px;border-radius:50%;background:rgb(var(--lux-${opt.color}))"
+                                    ></span>
+                                    <b>${opt.label}</b>
+                                    <span style="font-size:12px;color:rgb(var(--lux-text-secondary))">${opt.note}</span>
+                                    ${selected
+                                        ? html`<span style="margin-left:auto;color:rgb(var(--lux-primary-400))">✓</span>`
+                                        : ''}
+                                </div>
+                            `}
+                            @change=${(e) => console.log(e.detail)}
+                        ></lux-select>
+                    </div>
+                </div>
+                <div slot="footer">
+                    <lux-code
+                        language="html"
+                        .code=${`<lux-select
+  .options=${'TEAM_OPTIONS'}
+  .itemRender=${'(opt, selected) => html`<b>${opt.label}</b> …`'}
+></lux-select>`}
                     ></lux-code>
                 </div>
             </lux-example>
@@ -263,7 +393,7 @@ dd.value = 'banana';
                     <thead>
                         <tr>
                             <th>${msg('common.events')}</th>
-                            <th>Detail</th>
+                            <th>${msg('common.detail')}</th>
                             <th>${msg('common.description')}</th>
                         </tr>
                     </thead>

@@ -21,6 +21,10 @@ const styles = css`
         gap: 0;
         flex: 1;
         min-width: 0;
+        /* 固定内容高：input 的自然高由字体 metrics 决定（平台间 16/17px 会差 1px），
+           固定后与 lux-select 的 min-height 逐档恒等（外高 = 32+2 = 34px）
+           溢出的 0~1px 由 overflow:hidden 裁在 padding 区，文字垂直居中不可见 */
+        height: 32px;
         border: 1px solid rgb(var(--lux-border, 226 232 240));
         border-radius: var(--lux-radius, 6px);
         background: rgb(var(--lux-card, 255 255 255));
@@ -199,6 +203,7 @@ const styles = css`
     /* Size: sm */
     :host([size='sm']) .wrap {
         border-radius: var(--lux-radius-sm, 4px);
+        height: 29px;
     }
     :host([size='sm']) input {
         padding: 7px 8px;
@@ -214,6 +219,7 @@ const styles = css`
     /* Size: lg */
     :host([size='lg']) .wrap {
         border-radius: var(--lux-radius, 6px);
+        height: 43px;
     }
     :host([size='lg']) input {
         padding: 12px 12px;

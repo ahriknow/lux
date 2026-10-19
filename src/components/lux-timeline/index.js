@@ -58,10 +58,18 @@ const styles = css`
         background: rgb(var(--lux-primary-400));
         box-shadow: 0 0 0 3px rgb(var(--lux-bg));
     }
-    .dot.success { background: rgb(var(--lux-success, 22 163 74)); }
-    .dot.warning { background: rgb(217 119 6); }
-    .dot.danger  { background: rgb(220 38 38); }
-    .dot.info    { background: rgb(100 116 139); }
+    .dot.success {
+        background: rgb(var(--lux-success, 22 163 74));
+    }
+    .dot.warning {
+        background: rgb(217 119 6);
+    }
+    .dot.danger {
+        background: rgb(220 38 38);
+    }
+    .dot.info {
+        background: rgb(100 116 139);
+    }
 
     /* 标签 + 标题 + 时间同一行 inline 流：时间紧跟标题文本（而非右对齐） */
     .head {
@@ -83,10 +91,22 @@ const styles = css`
         background: rgb(var(--lux-primary-400) / 12%);
         color: rgb(var(--lux-primary-400));
     }
-    .tag.success { background: rgb(var(--lux-success, 22 163 74) / 14%); color: rgb(var(--lux-success, 22 163 74)); }
-    .tag.warning { background: rgb(217 119 6 / 14%); color: rgb(217 119 6); }
-    .tag.danger  { background: rgb(220 38 38 / 12%); color: rgb(220 38 38); }
-    .tag.info    { background: rgb(100 116 139 / 14%); color: rgb(100 116 139); }
+    .tag.success {
+        background: rgb(var(--lux-success, 22 163 74) / 14%);
+        color: rgb(var(--lux-success, 22 163 74));
+    }
+    .tag.warning {
+        background: rgb(217 119 6 / 14%);
+        color: rgb(217 119 6);
+    }
+    .tag.danger {
+        background: rgb(220 38 38 / 12%);
+        color: rgb(220 38 38);
+    }
+    .tag.info {
+        background: rgb(100 116 139 / 14%);
+        color: rgb(100 116 139);
+    }
 
     .time {
         margin-left: 8px;
@@ -151,7 +171,11 @@ class LuxTimeline extends LuxElement {
             );
             return html`
                 <div class="timeline">
-                    ${repeat(list, (item) => item.id, (item) => this._itemView(item))}
+                    ${repeat(
+                        list,
+                        (item) => item.id,
+                        (item) => this._itemView(item)
+                    )}
                 </div>
             `;
         }

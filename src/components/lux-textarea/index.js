@@ -13,10 +13,7 @@
  * Events: input {value}, change {value}, clear — all bubbles + composed
  */
 import { html, css, LuxElement, registerComponent, when } from '../../index.js';
-
-const CLEAR_SVG = html`<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-    <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-</svg>`;
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -37,7 +34,9 @@ const styles = css`
         line-height: 1.55;
         resize: vertical;
         outline: none;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
     }
     textarea::placeholder {
         color: rgb(var(--lux-text-muted, 148 163 184));
@@ -159,10 +158,13 @@ class LuxTextarea extends LuxElement {
                 @input=${(e) => this._onInput(e)}
                 @blur=${(e) => this._onBlur(e)}
             ></textarea>
-            ${when(showClear, () => html`<button class="clear" type="button" @click=${(e) => this._onClear(e)}>${CLEAR_SVG}</button>`)}
+            ${when(showClear, () => html`<button class="clear" type="button" @click=${(e) => this._onClear(e)}><lux-icon name="close" size="14px"></lux-icon></button>`)}
             ${when(
                 this.maxlength > 0,
-                () => html`<span class="count">${(this.value || '').length} / ${this.maxlength}</span>`
+                () =>
+                    html`<span class="count"
+                        >${(this.value || '').length} / ${this.maxlength}</span
+                    >`
             )}
         `;
     }

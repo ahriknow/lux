@@ -58,8 +58,13 @@ class PageComponentsUpload extends LuxElement {
         this.files = [];
         this.lastEvent = '—';
         this.demoReadonly = [
-            { name: '架构图.png', size: 2048, type: 'image/png', data: TINY_PNG },
-            { name: '会议纪要.pdf', size: 148000, type: 'application/pdf', data: 'data:application/pdf;base64,JVBERi0xLjQK' },
+            { name: msg('upload.demo.diagram'), size: 2048, type: 'image/png', data: TINY_PNG },
+            {
+                name: msg('upload.demo.minutes'),
+                size: 148000,
+                type: 'application/pdf',
+                data: 'data:application/pdf;base64,JVBERi0xLjQK',
+            },
         ];
     }
 
@@ -125,12 +130,42 @@ html\`<lux-upload .value=\${files} readonly></lux-upload>\``}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>value</code></td><td>Array</td><td><code>[]</code></td><td>${msg('upload.prop.value')}</td></tr>
-                        <tr><td><code>accept</code></td><td>String</td><td><code>""</code></td><td>${msg('upload.prop.accept')}</td></tr>
-                        <tr><td><code>multiple</code></td><td>Boolean</td><td><code>true</code></td><td>${msg('upload.prop.multiple')}</td></tr>
-                        <tr><td><code>max-size</code></td><td>Number</td><td><code>8</code></td><td>${msg('upload.prop.maxSize')}</td></tr>
-                        <tr><td><code>readonly / disabled</code></td><td>Boolean</td><td><code>false</code></td><td>${msg('upload.prop.readonly')}</td></tr>
-                        <tr><td><code>upload</code></td><td>Function</td><td><code>null</code></td><td>${msg('upload.prop.upload')}</td></tr>
+                        <tr>
+                            <td><code>value</code></td>
+                            <td>Array</td>
+                            <td><code>[]</code></td>
+                            <td>${msg('upload.prop.value')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>accept</code></td>
+                            <td>String</td>
+                            <td><code>""</code></td>
+                            <td>${msg('upload.prop.accept')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>multiple</code></td>
+                            <td>Boolean</td>
+                            <td><code>true</code></td>
+                            <td>${msg('upload.prop.multiple')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>max-size</code></td>
+                            <td>Number</td>
+                            <td><code>8</code></td>
+                            <td>${msg('upload.prop.maxSize')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>readonly / disabled</code></td>
+                            <td>Boolean</td>
+                            <td><code>false</code></td>
+                            <td>${msg('upload.prop.readonly')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>upload</code></td>
+                            <td>Function</td>
+                            <td><code>null</code></td>
+                            <td>${msg('upload.prop.upload')}</td>
+                        </tr>
                     </tbody>
                 </table>
             </lux-table>
@@ -146,7 +181,11 @@ html\`<lux-upload .value=\${files} readonly></lux-upload>\``}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>change</code></td><td><code>{ value }</code></td><td>${msg('upload.event.change')}</td></tr>
+                        <tr>
+                            <td><code>change</code></td>
+                            <td><code>{ value }</code></td>
+                            <td>${msg('upload.event.change')}</td>
+                        </tr>
                     </tbody>
                 </table>
             </lux-table>

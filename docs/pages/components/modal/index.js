@@ -52,7 +52,7 @@ class PageComponentsModal extends LuxElement {
     constructor() {
         super();
         this.open = false;
-        this.text = '草稿内容（关闭 × 后保留）';
+        this.text = msg('demo.modalDraft');
         this.lastEvent = '—';
         this.open2 = false;
     }
@@ -74,26 +74,29 @@ class PageComponentsModal extends LuxElement {
                     </div>
                     <lux-modal
                         .open=${this.open}
-                        title="新建工作项"
+                        .title=${msg('demo.modalTitle')}
                         width="520px"
                         @close=${() => {
                             this.open = false;
-                            this.lastEvent = 'close（× / 遮罩 / Esc — 内容保留）';
+                            this.lastEvent = msg('demo.modalCloseEvent');
                         }}
                         @cancel=${() => {
                             this.open = false;
                             this.text = '';
-                            this.lastEvent = 'cancel（取消 — 内容清空）';
+                            this.lastEvent = msg('demo.modalCancelEvent');
                         }}
                         @confirm=${() => {
                             this.open = false;
-                            this.lastEvent = `confirm（确定 — 提交「${this.text}」后清空）`;
+                            this.lastEvent = msg('demo.modalConfirmEvent');
                             this.text = '';
                         }}
                     >
                         <div style="display:flex;gap:10px;align-items:center">
                             <span>${msg('modal.titleLabel')}</span>
-                            <lux-input .value=${this.text} @input=${(e) => (this.text = e.detail.value)}></lux-input>
+                            <lux-input
+                                .value=${this.text}
+                                @input=${(e) => (this.text = e.detail.value)}
+                            ></lux-input>
                         </div>
                     </lux-modal>
                 </div>
@@ -102,7 +105,7 @@ class PageComponentsModal extends LuxElement {
                         language="js"
                         .code=${`html\`<lux-modal
     .open=\${open}
-    title="新建工作项"
+    title="${msg('demo.modalTitle')}"
     width="520px"
     @close=\${() => (open = false)}          // × / 遮罩 / Esc — 保留输入
     @cancel=\${() => { open = false; reset(); }} // 取消 — 清空输入
@@ -117,12 +120,14 @@ class PageComponentsModal extends LuxElement {
             <lux-example>
                 <span slot="heading">${msg('modal.control')}</span>
                 <div slot="main">
-                    <lux-button @click=${() => (this.open2 = true)}>${msg('modal.openBtn')}</lux-button>
+                    <lux-button @click=${() => (this.open2 = true)}
+                        >${msg('modal.openBtn')}</lux-button
+                    >
                     <lux-modal
                         .open=${this.open2}
                         .closable=${false}
                         .hideFooter=${true}
-                        title="closable=false · hide-footer"
+                        .title=${msg('demo.modalControlTitle')}
                         width="420px"
                         @close=${() => (this.open2 = false)}
                     >
@@ -141,7 +146,7 @@ class PageComponentsModal extends LuxElement {
     .open=\${open}
     .closable=\${false}     // 隐藏右上角 ×（Esc / 遮罩仍生效）
     .hideFooter=\${true}    // 无底部按钮，内容区自带操作
-    title="自定义操作"
+    title="${msg('demo.modalCustomTitle')}"
 >…</lux-modal>\``}
                     ></lux-code>
                 </div>
@@ -159,14 +164,54 @@ class PageComponentsModal extends LuxElement {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>open</code></td><td>Boolean</td><td><code>false</code></td><td>${msg('modal.prop.open')}</td></tr>
-                        <tr><td><code>title</code></td><td>String</td><td><code>""</code></td><td>${msg('modal.prop.title')}</td></tr>
-                        <tr><td><code>width</code></td><td>String</td><td><code>"480px"</code></td><td>${msg('modal.prop.width')}</td></tr>
-                        <tr><td><code>closable</code></td><td>Boolean</td><td><code>true</code></td><td>${msg('modal.prop.closable')}</td></tr>
-                        <tr><td><code>mask-closable</code></td><td>Boolean</td><td><code>true</code></td><td>${msg('modal.prop.mask')}</td></tr>
-                        <tr><td><code>hide-footer</code></td><td>Boolean</td><td><code>false</code></td><td>${msg('modal.prop.hideFooter')}</td></tr>
-                        <tr><td><code>confirm-text / cancel-text</code></td><td>String</td><td><code>确定/取消</code></td><td>${msg('modal.prop.texts')}</td></tr>
-                        <tr><td><code>loading</code></td><td>Boolean</td><td><code>false</code></td><td>${msg('modal.prop.loading')}</td></tr>
+                        <tr>
+                            <td><code>open</code></td>
+                            <td>Boolean</td>
+                            <td><code>false</code></td>
+                            <td>${msg('modal.prop.open')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>title</code></td>
+                            <td>String</td>
+                            <td><code>""</code></td>
+                            <td>${msg('modal.prop.title')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>width</code></td>
+                            <td>String</td>
+                            <td><code>"480px"</code></td>
+                            <td>${msg('modal.prop.width')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>closable</code></td>
+                            <td>Boolean</td>
+                            <td><code>true</code></td>
+                            <td>${msg('modal.prop.closable')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>mask-closable</code></td>
+                            <td>Boolean</td>
+                            <td><code>true</code></td>
+                            <td>${msg('modal.prop.mask')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>hide-footer</code></td>
+                            <td>Boolean</td>
+                            <td><code>false</code></td>
+                            <td>${msg('modal.prop.hideFooter')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>confirm-text / cancel-text</code></td>
+                            <td>String</td>
+                            <td><code>${msg('modal.confirm')}/${msg('modal.cancel')}</code></td>
+                            <td>${msg('modal.prop.texts')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>loading</code></td>
+                            <td>Boolean</td>
+                            <td><code>false</code></td>
+                            <td>${msg('modal.prop.loading')}</td>
+                        </tr>
                     </tbody>
                 </table>
             </lux-table>
@@ -182,9 +227,21 @@ class PageComponentsModal extends LuxElement {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>close</code></td><td>—</td><td>${msg('modal.event.close')}</td></tr>
-                        <tr><td><code>cancel</code></td><td>—</td><td>${msg('modal.event.cancel')}</td></tr>
-                        <tr><td><code>confirm</code></td><td>—</td><td>${msg('modal.event.confirm')}</td></tr>
+                        <tr>
+                            <td><code>close</code></td>
+                            <td>—</td>
+                            <td>${msg('modal.event.close')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>cancel</code></td>
+                            <td>—</td>
+                            <td>${msg('modal.event.cancel')}</td>
+                        </tr>
+                        <tr>
+                            <td><code>confirm</code></td>
+                            <td>—</td>
+                            <td>${msg('modal.event.confirm')}</td>
+                        </tr>
                     </tbody>
                 </table>
             </lux-table>

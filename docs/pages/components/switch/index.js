@@ -128,7 +128,7 @@ class PageComponentsSwitch extends LuxElement {
                         language="html"
                         .code=${`<lux-switch disabled></lux-switch>
 <lux-switch checked disabled></lux-switch>
-<lux-switch checked-on-bg="rgb(var(--lux-success))" checked-on-color="rgb(var(--lux-text-muted))" disabled>Disabled</lux-switch>`}
+<lux-switch checked-on-bg="rgb(var(--lux-success))" checked-on-color="rgb(var(--lux-text-muted))" disabled>${msg('demo.disabled')}</lux-switch>`}
                     ></lux-code>
                 </div>
             </lux-example>
@@ -164,7 +164,7 @@ class PageComponentsSwitch extends LuxElement {
                     <div class="demo-row" style="align-items:center">
                         <lux-switch id="async-switch"></lux-switch>
                         <span style="font-size:12px;color:rgb(var(--lux-text-muted))"
-                            >点击后模拟 1s 请求，返回 true 切换，返回 false 不切换</span
+                            >${msg('switch.asyncDescription')}</span
                         >
                     </div>
                 </div>
@@ -256,7 +256,7 @@ class PageComponentsSwitch extends LuxElement {
                     <lux-code
                         language="html"
                         .code=${`<lux-switch checked-on-bg="rgb(var(--lux-success))" checked-on-color="rgb(var(--lux-text-muted))">Green</lux-switch>
-<lux-switch checked-on-bg="rgb(var(--lux-error))" checked-on-color="rgb(var(--lux-text-muted))">Red</lux-switch>
+<lux-switch checked-on-bg="rgb(var(--lux-error))" checked-on-color="rgb(var(--lux-text-muted))">${msg('demo.red')}</lux-switch>
 <lux-switch checked-on-bg="rgb(var(--lux-warning))" checked-on-color="rgb(var(--lux-text-muted))">Warning</lux-switch>
 <lux-switch checked-on-bg="rgb(var(--lux-info))" checked-on-color="rgb(var(--lux-text-muted))">Info</lux-switch>`}
                     ></lux-code>
@@ -279,7 +279,7 @@ class PageComponentsSwitch extends LuxElement {
                     <lux-code
                         language="html"
                         .code=${`<lux-switch checked>Enable notifications</lux-switch>
-<lux-switch checked-on-color="rgb(var(--lux-success))" checked-off-color="rgb(var(--lux-text-muted))">Dark Mode</lux-switch>`}
+<lux-switch checked-on-color="rgb(var(--lux-success))" checked-off-color="rgb(var(--lux-text-muted))">${msg('demo.darkMode')}</lux-switch>`}
                     ></lux-code>
                 </div>
             </lux-example>

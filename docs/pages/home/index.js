@@ -1,4 +1,5 @@
 import { html, css, LuxElement, msg } from '../../lux.min.js';
+import '../../complib/lux-icon.min.js';
 
 const styles = css`
     :host {
@@ -202,12 +203,12 @@ const styles = css`
 `;
 
 const features = [
-    { icon: '⚡', titleKey: 'home.featReactive', descKey: 'home.featReactiveDesc' },
-    { icon: '📦', titleKey: 'home.featStyles', descKey: 'home.featStylesDesc' },
-    { icon: '🔁', titleKey: 'home.featRepeat', descKey: 'home.featRepeatDesc' },
-    { icon: '🎯', titleKey: 'home.featBindings', descKey: 'home.featBindingsDesc' },
-    { icon: '🧭', titleKey: 'home.featRouter', descKey: 'home.featRouterDesc' },
-    { icon: '🪶', titleKey: 'home.featDeps', descKey: 'home.featDepsDesc' },
+    { icon: 'bolt', titleKey: 'home.featReactive', descKey: 'home.featReactiveDesc' },
+    { icon: 'inventory_2', titleKey: 'home.featStyles', descKey: 'home.featStylesDesc' },
+    { icon: 'sync', titleKey: 'home.featRepeat', descKey: 'home.featRepeatDesc' },
+    { icon: 'track_changes', titleKey: 'home.featBindings', descKey: 'home.featBindingsDesc' },
+    { icon: 'explore', titleKey: 'home.featRouter', descKey: 'home.featRouterDesc' },
+    { icon: 'feather', titleKey: 'home.featDeps', descKey: 'home.featDepsDesc' },
 ];
 
 class PageHome extends LuxElement {
@@ -265,7 +266,9 @@ class PageHome extends LuxElement {
                 ${features.map(
                     (f) => html`
                         <div class="feature-card">
-                            <div class="feature-icon">${f.icon}</div>
+                            <div class="feature-icon">
+                                <lux-icon .name=${f.icon} size="20px"></lux-icon>
+                            </div>
                             <h3>${msg(f.titleKey)}</h3>
                             <p>${msg(f.descKey)}</p>
                         </div>

@@ -1,10 +1,5 @@
 import { html, css, LuxElement, registerComponent, repeat } from '../../index.js';
-
-const CLEAR_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path
-        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-    />
-</svg>`;
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -224,8 +219,8 @@ class LuxDropdown extends LuxElement {
                                   e.stopPropagation();
                                   this._clear();
                               }}
-                              >${CLEAR_SVG}</span
-                          >`
+                              ><lux-icon name="close"></lux-icon
+                          ></span>`
                         : ''
                 }
             </div>

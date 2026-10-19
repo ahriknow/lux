@@ -343,17 +343,19 @@ class PageComponentsInput extends LuxElement {
                             placeholder=${msg('input.ph.enter')}
                             @input=${(e) => {
                                 const log = this.renderRoot.querySelector('#input-event-log');
-                                if (log) log.textContent = `input: "${e.detail.value}"`;
+                                if (log)
+                                    log.textContent = `${msg('input.eventInput')}: "${e.detail.value}"`;
                             }}
                             @change=${(e) => {
                                 const log = this.renderRoot.querySelector('#input-event-log');
-                                if (log) log.textContent = `change: "${e.detail.value}"`;
+                                if (log)
+                                    log.textContent = `${msg('input.eventChange')}: "${e.detail.value}"`;
                             }}
                         ></lux-input>
                         <span
                             id="input-event-log"
                             style="color:rgb(var(--lux-text-secondary));font-size:13px"
-                            >No input yet</span
+                            >${msg('input.noInput')}</span
                         >
                     </div>
                 </div>

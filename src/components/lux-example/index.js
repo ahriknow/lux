@@ -1,4 +1,5 @@
 import { html, css, LuxElement, registerComponent } from '../../index.js';
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -100,7 +101,9 @@ class LuxExample extends LuxElement {
                         this._toggle();
                     }}
                 >
-                    <span class="toggle-icon">▼</span>
+                    <span class="toggle-icon"
+                        ><lux-icon name="expand_more" size="14px"></lux-icon
+                    ></span>
                 </button>
             </div>
             <div class="main">

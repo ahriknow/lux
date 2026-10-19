@@ -36,49 +36,53 @@ const styles = css`
 const basicItems = [
     {
         id: 1,
-        tag: '创建',
+        tag: msg('timeline.demo.create'),
         color: 'info',
-        title: '有个人 创建了工作项',
-        desc: '复现步骤：Safari 打开登录页',
+        title: msg('timeline.demo.created'),
+        desc: msg('timeline.demo.repro'),
         time: '09:12',
     },
     {
         id: 2,
-        tag: '指派',
+        tag: msg('timeline.demo.assign'),
         color: 'warning',
-        title: '有个人 将工作项指派给 banuser',
+        title: msg('timeline.demo.assigned'),
         time: '09:13',
     },
     {
         id: 3,
-        tag: '状态流转',
+        tag: msg('timeline.demo.status'),
         color: 'primary',
-        title: '超级管理员：新建 → 进行中',
-        desc: '开始处理，预计本周修复',
+        title: msg('timeline.demo.adminStatus'),
+        desc: msg('timeline.demo.started'),
         time: '10:04',
     },
     {
         id: 4,
-        tag: '评论',
+        tag: msg('timeline.demo.comment'),
         color: 'success',
-        title: '有个人 评论',
-        desc: '已定位到连接池耗尽，等发布后转待验证',
+        title: msg('timeline.demo.commented'),
+        desc: msg('timeline.demo.resolved'),
         time: '10:21',
     },
 ];
 
 const colorItems = [
-    { id: 1, color: 'primary', tag: 'primary', title: '默认主色节点' },
-    { id: 2, color: 'success', tag: 'success', title: '成功 / 完成语义' },
-    { id: 3, color: 'warning', tag: 'warning', title: '警告 / 指派语义' },
-    { id: 4, color: 'danger', tag: 'danger', title: '危险 / 驳回语义' },
-    { id: 5, color: 'info', tag: 'info', title: '中性 / 创建语义' },
+    { id: 1, color: 'primary', tag: 'primary', title: msg('timeline.demo.primary') },
+    { id: 2, color: 'success', tag: 'success', title: msg('timeline.demo.success') },
+    { id: 3, color: 'warning', tag: 'warning', title: msg('timeline.demo.warning') },
+    { id: 4, color: 'danger', tag: 'danger', title: msg('timeline.demo.danger') },
+    { id: 5, color: 'info', tag: 'info', title: msg('timeline.demo.info') },
 ];
 
 const minimalItems = [
-    { id: 1, title: '只有主文本的条目也完全合法' },
-    { id: 2, title: '主文本 + 时间', time: '昨天 18:30' },
-    { id: 3, title: '主文本 + 描述', desc: 'desc 字段用于补充说明，颜色随主题变浅' },
+    { id: 1, title: msg('timeline.demo.onlyTitle') },
+    { id: 2, title: msg('timeline.demo.titleTime'), time: msg('timeline.demo.yesterday') },
+    {
+        id: 3,
+        title: msg('timeline.demo.titleDesc'),
+        desc: msg('timeline.demo.description'),
+    },
 ];
 
 class PageComponentsTimeline extends LuxElement {
@@ -134,7 +138,7 @@ const items = [
             </lux-example>
 
             <lux-example>
-                <span slot="heading">${msg('timeline.basic')}（最小字段）</span>
+                <span slot="heading">${msg('timeline.basic')} ${msg('timeline.minimum')}</span>
                 <div slot="main">
                     <div class="demo">
                         <lux-timeline .items=${minimalItems}></lux-timeline>
@@ -158,11 +162,15 @@ const items = [
                 <div slot="main">
                     <div class="demo">
                         <lux-timeline>
-                            <div style="padding: 4px 0 12px 26px; color: rgb(var(--lux-text-secondary)); font-size: 13px;">
-                                items 为空时回退到默认 slot，内容与结构完全自由（此模式不带轴线样式）。
+                            <div
+                                style="padding: 4px 0 12px 26px; color: rgb(var(--lux-text-secondary)); font-size: 13px;"
+                            >
+                                ${msg('timeline.demo.slotDesc')}
                             </div>
-                            <div style="padding: 4px 0 12px 26px; color: rgb(var(--lux-text-secondary)); font-size: 13px);">
-                                需要时间线视觉请使用 <code>.items</code> 数据驱动模式。
+                            <div
+                                style="padding: 4px 0 12px 26px; color: rgb(var(--lux-text-secondary)); font-size: 13px);"
+                            >
+                                ${msg('timeline.demo.dataDriven')} <code>.items</code>.
                             </div>
                         </lux-timeline>
                     </div>
@@ -171,7 +179,7 @@ const items = [
                     <lux-code
                         language="html"
                         .code=${`<lux-timeline>
-    <div>自由结构的回退内容（无轴线样式）</div>
+    <div>${msg('timeline.demo.freeContent')}</div>
 </lux-timeline>`}
                     ></lux-code>
                 </div>

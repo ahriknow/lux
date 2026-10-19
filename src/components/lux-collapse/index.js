@@ -16,10 +16,7 @@
  *   toggle — { open } after expand/collapse
  */
 import { html, css, LuxElement, registerComponent } from '../../index.js';
-
-const ARROW_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path>
-</svg>`;
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -105,7 +102,9 @@ class LuxCollapse extends LuxElement {
         const isCtl = path.some(
             (n) =>
                 n instanceof Element &&
-                n.matches('a,button,input,select,textarea,lux-button,lux-select,lux-switch,lux-modal')
+                n.matches(
+                    'a,button,input,select,textarea,lux-button,lux-select,lux-switch,lux-modal'
+                )
         );
         if (isCtl) return;
         this.open = !this.open;
@@ -115,7 +114,7 @@ class LuxCollapse extends LuxElement {
     render() {
         return html`
             <div class="head" @click=${(e) => this._onHeadClick(e)}>
-                <span class="arrow">${ARROW_SVG}</span>
+                <span class="arrow"><lux-icon name="chevron_right"></lux-icon></span>
                 <div class="title"><slot name="title">${this.title ?? ''}</slot></div>
                 <div class="actions"><slot name="actions"></slot></div>
             </div>

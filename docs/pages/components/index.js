@@ -5,6 +5,7 @@ import '../../complib/lux-switch.min.js';
 import '../../complib/lux-dropdown.min.js';
 import '../../complib/lux-scroll.min.js';
 import '../../complib/lux-menu.min.js';
+import '../../complib/lux-icon.min.js';
 import messages from '../../i18n/messages.js';
 
 const i18n = createI18n({ locale: 'zh-CN', messages });
@@ -23,7 +24,14 @@ const styles = css`
     }
 
     .aside-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         padding: 16px;
+    }
+    .aside-menu-scroll {
+        flex: 1;
+        min-height: 0;
     }
     .aside-brand {
         padding: 0 16px 16px;
@@ -106,6 +114,7 @@ function loadTheme() {
 }
 
 function applyTheme(dark) {
+    localStorage.setItem('lux-theme', dark ? 'dark' : 'light');
     let link = document.getElementById(DARK_LINK_ID);
     if (dark) {
         if (!link) {
@@ -132,33 +141,33 @@ class PageComponents extends LuxElement {
 
     _getMenuItems() {
         return [
-            { key: 'intro', label: 'Intro', icon: 'bookmark' },
+            { key: 'intro', label: msg('sidebar.intro'), icon: 'bookmark' },
             { key: 'divider1', divider: true },
-            { key: 'layout', label: 'Layout', icon: 'view_quilt' },
-            { key: 'menu', label: 'Menu', icon: 'menu' },
-            { key: 'scroll', label: 'Scroll', icon: 'swap_vert' },
-            { key: 'example', label: 'Example', icon: 'visibility' },
+            { key: 'layout', label: msg('sidebar.layout'), icon: 'view_quilt' },
+            { key: 'menu', label: msg('sidebar.menu'), icon: 'menu' },
+            { key: 'scroll', label: msg('sidebar.scroll'), icon: 'swap_vert' },
+            { key: 'example', label: msg('sidebar.example'), icon: 'visibility' },
             { key: 'divider2', divider: true },
-            { key: 'button', label: 'Button', icon: 'smart_button' },
-            { key: 'input', label: 'Input', icon: 'edit' },
-            { key: 'radio', label: 'Radio', icon: 'check_circle' },
-            { key: 'switch', label: 'Switch', icon: 'toggle_on' },
-            { key: 'select', label: 'Select', icon: 'list' },
-            { key: 'dropdown', label: 'Dropdown', icon: 'arrow_down' },
-            { key: 'item-group', label: 'Item Group', icon: 'view_module' },
-            { key: 'icon', label: 'Icon', icon: 'star' },
+            { key: 'button', label: msg('sidebar.button'), icon: 'smart_button' },
+            { key: 'input', label: msg('sidebar.input'), icon: 'edit' },
+            { key: 'textarea', label: msg('sidebar.textarea'), icon: 'subject' },
+            { key: 'radio', label: msg('sidebar.radio'), icon: 'check_circle' },
+            { key: 'switch', label: msg('sidebar.switch'), icon: 'toggle_on' },
+            { key: 'select', label: msg('sidebar.select'), icon: 'list' },
+            { key: 'dropdown', label: msg('sidebar.dropdown'), icon: 'arrow_down' },
+            { key: 'item-group', label: msg('sidebar.itemGroup'), icon: 'view_module' },
+            { key: 'icon', label: msg('sidebar.icon'), icon: 'star' },
             { key: 'divider3', divider: true },
-            { key: 'timeline', label: 'Timeline', icon: 'timeline' },
-            { key: 'modal', label: 'Modal', icon: 'open_in_full' },
-            { key: 'upload', label: 'Upload', icon: 'upload' },
-            { key: 'textarea', label: 'Textarea', icon: 'subject' },
-            { key: 'color-picker', label: 'Color Picker', icon: 'palette' },
-            { key: 'date-picker', label: 'Date Picker', icon: 'calendar' },
-            { key: 'collapse', label: 'Collapse', icon: 'unfold_more' },
-            { key: 'tree', label: 'Tree', icon: 'account_tree' },
-            { key: 'table', label: 'Table', icon: 'table_chart' },
-            { key: 'pagination', label: 'Pagination', icon: 'pagination' },
-            { key: 'code', label: 'Code', icon: 'code' },
+            { key: 'timeline', label: msg('sidebar.timeline'), icon: 'timeline' },
+            { key: 'modal', label: msg('sidebar.modal'), icon: 'open_in_full' },
+            { key: 'upload', label: msg('sidebar.upload'), icon: 'upload' },
+            { key: 'color-picker', label: msg('sidebar.colorPicker'), icon: 'palette' },
+            { key: 'date-picker', label: msg('sidebar.datePicker'), icon: 'calendar' },
+            { key: 'collapse', label: msg('sidebar.collapse'), icon: 'expand_more' },
+            { key: 'tree', label: msg('sidebar.tree'), icon: 'account_tree' },
+            { key: 'table', label: msg('sidebar.table'), icon: 'table_chart' },
+            { key: 'pagination', label: msg('sidebar.pagination'), icon: 'pagination' },
+            { key: 'code', label: msg('sidebar.code'), icon: 'code' },
         ];
     }
 
@@ -246,12 +255,14 @@ class PageComponents extends LuxElement {
                             ><span style="color:rgb(var(--lux-primary-400))">L</span>ux</span
                         ></a
                     >
-                    <lux-menu
-                        .collapse-width=${200}
-                        id="aside-menu"
-                        .items=${this._getMenuItems()}
-                        active-key=${this._getActiveKey()}
-                    ></lux-menu>
+                    <lux-scroll class="aside-menu-scroll" height="100%">
+                        <lux-menu
+                            .collapse-width=${200}
+                            id="aside-menu"
+                            .items=${this._getMenuItems()}
+                            active-key=${this._getActiveKey()}
+                        ></lux-menu>
+                    </lux-scroll>
                 </div>
 
                 <div slot="header" class="header-inner">
@@ -278,15 +289,7 @@ class PageComponents extends LuxElement {
                                 slot="trigger"
                                 .title=${msg('nav.lang')}
                                 style="display:inline-flex;align-items:center;cursor:pointer;color:rgb(var(--lux-text-secondary))"
-                                ><svg
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 1024 1024"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        d="M640 416h256c35.328 0 64 28.4672 64 64V896c0 35.328-28.4672 64-64 64H480c-35.328 0-64-28.4672-64-64v-256h128c53.2992 0 96-43.008 96-96v-128zM64 128c0-35.328 28.4672-64 64-64h416c35.328 0 64 28.4672 64 64v416c0 35.328-28.4672 64-64 64H128c-35.328 0-64-28.4672-64-64V128z m128 276.2752h46.6944v-24.7808H306.176v118.272h49.5104v-118.272h68.7616v20.6336h50.8928V243.3536H355.6352v-34.3552c0-10.0864 1.3824-18.7904 4.096-26.112a10.5472 10.5472 0 0 0 1.3824-4.1472c0-0.9216-3.1744-1.792-9.5744-2.7648H304.64v67.3792H192v160.9216z m46.6944-122.368H306.176v60.416H238.7456v-60.416z m185.7024 60.416H355.6352v-60.416h68.7616v60.4672z m203.8272 488.0384l19.2512-53.6064h100.352l19.3024 53.6064h54.9888L732.672 576H668.16l-92.1088 254.4128h52.224z m33.024-96.256l37.12-108.5952h1.3824l34.3552 108.5952h-72.8576zM896 320h-64a128 128 0 0 0-128-128V128a192 192 0 0 1 192 192z m-768 384h64a128 128 0 0 0 128 128v64a192 192 0 0 1-192-192z"
-                                    /></svg
+                                ><lux-icon name="language" size="20px"></lux-icon
                             ></span>
                         </lux-dropdown>
                         <lux-switch

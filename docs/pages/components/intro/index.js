@@ -108,124 +108,75 @@ const COMPONENTS = [
         key: 'layout',
         name: 'Layout',
         icon: 'view_quilt',
-        desc: {
-            zh: '响应式页面布局，支持 header/aside/main/footer 区域',
-            en: 'Responsive page layout with header/aside/main/footer regions',
-            ru: 'Адаптивный макет страницы с областями header/aside/main/footer',
-        },
+        desc: 'intro.desc.layout',
     },
     {
         key: 'menu',
         name: 'Menu',
         icon: 'menu',
-        desc: {
-            zh: '菜单组件，支持多级嵌套、图标、选中状态和折叠',
-            en: 'Menu component with nested items, icons, selection and collapse',
-            ru: 'Компонент меню с вложенными пунктами, иконками и сворачиванием',
-        },
+        desc: 'intro.desc.menu',
     },
     {
         key: 'scroll',
         name: 'Scroll',
         icon: 'swap_vert',
-        desc: {
-            zh: '自定义滚动条容器，美化滚动条样式',
-            en: 'Custom scrollbar container with styled scrollbars',
-            ru: 'Контейнер с кастомными полосами прокрутки',
-        },
+        desc: 'intro.desc.scroll',
     },
     {
         key: 'example',
         name: 'Example',
         icon: 'visibility',
-        desc: {
-            zh: '代码示例展示容器，支持展开/折叠代码',
-            en: 'Code example container with expand/collapse',
-            ru: 'Контейнер для примеров кода со сворачиванием',
-        },
+        desc: 'intro.desc.example',
     },
     {
         key: 'button',
         name: 'Button',
         icon: 'smart_button',
-        desc: {
-            zh: '按钮组件，支持多种变体、尺寸、形状和图标',
-            en: 'Button component with variants, sizes, shapes and icons',
-            ru: 'Кнопка с вариантами, размерами, формами и иконками',
-        },
+        desc: 'intro.desc.button',
     },
     {
         key: 'input',
         name: 'Input',
         icon: 'edit',
-        desc: {
-            zh: '输入框组件，支持前后缀、清除按钮和状态',
-            en: 'Input component with prefix/suffix, clear button and states',
-            ru: 'Поле ввода с префиксом/суффиксом и очисткой',
-        },
+        desc: 'intro.desc.input',
     },
     {
         key: 'switch',
         name: 'Switch',
         icon: 'toggle_on',
-        desc: {
-            zh: '开关组件，支持异步切换和加载状态',
-            en: 'Switch toggle with async change and loading state',
-            ru: 'Переключатель с асинхронным переключением',
-        },
+        desc: 'intro.desc.switch',
     },
     {
         key: 'dropdown',
         name: 'Dropdown',
         icon: 'arrow_down',
-        desc: {
-            zh: '下拉选择组件，支持自定义选项和清除',
-            en: 'Dropdown select with custom options and clear',
-            ru: 'Выпадающий список с пользовательскими опциями',
-        },
+        desc: 'intro.desc.dropdown',
     },
     {
         key: 'icon',
         name: 'Icon',
         icon: 'star',
-        desc: {
-            zh: '图标组件，支持 Material Icons 和自定义 SVG',
-            en: 'Icon component with Material Icons and custom SVG',
-            ru: 'Компонент иконок с Material Icons и SVG',
-        },
+        desc: 'intro.desc.icon',
     },
     {
         key: 'table',
         name: 'Table',
         icon: 'table_chart',
-        desc: {
-            zh: '表格组件，支持动态列和响应式数据',
-            en: 'Table component with dynamic columns and reactive data',
-            ru: 'Таблица с динамическими колонками и реактивными данными',
-        },
+        desc: 'intro.desc.table',
     },
     {
         key: 'code',
         name: 'Code',
         icon: 'code',
-        desc: {
-            zh: '代码高亮组件，支持语法高亮、Mac 风格头部和复制',
-            en: 'Syntax highlighting with Mac-style header and copy',
-            ru: 'Подсветка синтаксиса с заголовком в стиле Mac и копированием',
-        },
+        desc: 'intro.desc.code',
     },
 ];
 
 class PageComponentsIntro extends LuxElement {
     static styles = styles;
 
-    _getLocale() {
-        return localStorage.getItem('lux-lang') || 'zh-CN';
-    }
-
     _desc(item) {
-        const locale = this._getLocale();
-        return item.desc[locale] || item.desc['en'];
+        return msg(item.desc);
     }
 
     render() {

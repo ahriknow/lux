@@ -13,15 +13,18 @@
  *
  * Events: change { value } — bubbles + composed
  */
-import { html, css, LuxElement, registerComponent, repeat, when } from '../../index.js';
-
-const ARROW_SVG = html`<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-    <path d="M7 10l5 5 5-5z" />
-</svg>`;
-const PREV_SVG = html`<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>`;
-const NEXT_SVG = html`<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L15.17 12z"/></svg>`;
-
-const WEEK = ['日', '一', '二', '三', '四', '五', '六'];
+import {
+    html,
+    css,
+    LuxElement,
+    registerComponent,
+    repeat,
+    when,
+    msg,
+    date,
+    getLocale,
+} from '../../index.js';
+import '../lux-icon/index.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const dayStart = (sec) => {
@@ -29,12 +32,13 @@ const dayStart = (sec) => {
     d.setHours(0, 0, 0, 0);
     return Math.floor(d.getTime() / 1000);
 };
-const mkSec = (y, m, d, h = 0, mi = 0, s = 0) => Math.floor(new Date(y, m, d, h, mi, s).getTime() / 1000);
+const mkSec = (y, m, d, h = 0, mi = 0, s = 0) =>
+    Math.floor(new Date(y, m, d, h, mi, s).getTime() / 1000);
 
 function fmtPart(sec, withDate, withTime) {
     const d = new Date(sec * 1000);
     const out = [];
-    if (withDate) out.push(`${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`);
+    if (withDate) out.push(date(d, { year: 'numeric', month: '2-digit', day: '2-digit' }));
     if (withTime) out.push(`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`);
     return out.join(' ');
 }
@@ -384,7 +388,8 @@ class LuxDatePicker extends LuxElement {
 
     _display() {
         const v = this.value;
-        const empty = v == null || (Array.isArray(v) && (v.length < 2 || v[0] == null || v[1] == null));
+        const empty =
+            v == null || (Array.isArray(v) && (v.length < 2 || v[0] == null || v[1] == null));
         if (empty) return this.placeholder || this._ph();
         if (this._isRange) {
             const [a, b] = v;
@@ -395,18 +400,36 @@ class LuxDatePicker extends LuxElement {
 
     _ph() {
         switch (this.mode) {
-            case 'time': return '选择时间';
-            case 'date-range': return '选择日期范围';
-            case 'datetime-range': return '选择日期时间范围';
-            case 'datetime': return '选择日期时间';
-            default: return '选择日期';
+            case 'time':
+                return msg('datePicker.time');
+            case 'date-range':
+                return msg('datePicker.dateRange');
+            case 'datetime-range':
+                return msg('datePicker.dateTimeRange');
+            case 'datetime':
+                return msg('datePicker.dateTime');
+            default:
+                return msg('datePicker.date');
         }
+    }
+
+    _weekdays() {
+        const locale = getLocale() || undefined;
+        return Array.from({ length: 7 }, (_, day) =>
+            new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(new Date(2024, 0, 7 + day))
+        );
     }
 
     _openPanel() {
         if (this.disabled) return;
         const v = this.value;
-        const base = this._isRange ? (Array.isArray(v) ? v[0] : null) : (typeof v === 'number' ? v : null);
+        const base = this._isRange
+            ? Array.isArray(v)
+                ? v[0]
+                : null
+            : typeof v === 'number'
+              ? v
+              : null;
         const ref = base != null ? new Date(base * 1000) : new Date();
         this.vy = ref.getFullYear();
         this.vm = ref.getMonth();
@@ -432,16 +455,29 @@ class LuxDatePicker extends LuxElement {
         const cells = [];
         for (let i = 0; i < 42; i++) {
             const dayIdx = i - startPad;
-            let y = this.vy, m = this.vm, d, dim = false;
+            let y = this.vy,
+                m = this.vm,
+                d,
+                dim = false;
             if (dayIdx < 0) {
-                m = this.vm - 1; d = prevDays + dayIdx + 1; dim = true;
+                m = this.vm - 1;
+                d = prevDays + dayIdx + 1;
+                dim = true;
             } else if (dayIdx >= daysInMonth) {
-                m = this.vm + 1; d = dayIdx - daysInMonth + 1; dim = true;
+                m = this.vm + 1;
+                d = dayIdx - daysInMonth + 1;
+                dim = true;
             } else {
                 d = dayIdx + 1;
             }
-            if (m < 0) { m = 11; y -= 1; }
-            if (m > 11) { m = 0; y += 1; }
+            if (m < 0) {
+                m = 11;
+                y -= 1;
+            }
+            if (m > 11) {
+                m = 0;
+                y += 1;
+            }
             cells.push({ y, m, d, dim });
         }
         return cells;
@@ -452,7 +488,8 @@ class LuxDatePicker extends LuxElement {
         const cls = ['cell'];
         if (c.dim) cls.push('dim');
         const now = new Date();
-        if (c.y === now.getFullYear() && c.m === now.getMonth() && c.d === now.getDate()) cls.push('today');
+        if (c.y === now.getFullYear() && c.m === now.getMonth() && c.d === now.getDate())
+            cls.push('today');
         if (this._isRange) {
             const s = this.draftS != null ? dayStart(this.draftS) : null;
             const e = this.draftE != null ? dayStart(this.draftE) : null;
@@ -505,8 +542,14 @@ class LuxDatePicker extends LuxElement {
     _shiftMonth(delta) {
         let m = this.vm + delta;
         let y = this.vy;
-        if (m < 0) { m = 11; y -= 1; }
-        if (m > 11) { m = 0; y += 1; }
+        if (m < 0) {
+            m = 11;
+            y -= 1;
+        }
+        if (m > 11) {
+            m = 0;
+            y += 1;
+        }
         this.vy = y;
         this.vm = m;
     }
@@ -533,72 +576,155 @@ class LuxDatePicker extends LuxElement {
 
     render() {
         const text = this._display();
-        const isPh = text === this._ph() && !this.placeholder ? true : !(this.value != null && (!Array.isArray(this.value) || this.value.length === 2));
+        const isPh =
+            text === this._ph() && !this.placeholder
+                ? true
+                : !(this.value != null && (!Array.isArray(this.value) || this.value.length === 2));
         const showCal = this._hasDate;
         const showTime = this._hasTime;
-        const canConfirm = this._isRange ? this.draftS != null && this.draftE != null : this.draftS != null;
+        const canConfirm = this._isRange
+            ? this.draftS != null && this.draftE != null
+            : this.draftS != null;
         const hours = Array.from({ length: 24 }, (_, i) => i);
         const minutes = Array.from({ length: 60 }, (_, i) => i);
         const seconds = Array.from({ length: 60 }, (_, i) => i);
+        const monthLabel = date(new Date(this.vy, this.vm, 1), { year: 'numeric', month: 'long' });
 
         return html`
             <div class="trigger" @click=${() => this._openPanel()}>
                 <span class=${isPh ? 'text ph' : 'text'}>${text}</span>
-                <span class="arrow">${ARROW_SVG}</span>
+                <span class="arrow"><lux-icon name="expand_more" size="14px"></lux-icon></span>
             </div>
             <div class=${this.open ? 'panel open' : 'panel'}>
-                ${when(showCal, () => html`
-                    <div class="nav">
-                        <button type="button" title="上一年" @click=${() => this._shiftMonth(-12)}>${PREV_SVG}${PREV_SVG}</button>
-                        <button type="button" title="上一月" @click=${() => this._shiftMonth(-1)}>${PREV_SVG}</button>
-                        <span class="label">${this.vy} 年 ${this.vm + 1} 月</span>
-                        <button type="button" title="下一月" @click=${() => this._shiftMonth(1)}>${NEXT_SVG}</button>
-                        <button type="button" title="下一年" @click=${() => this._shiftMonth(12)}>${NEXT_SVG}${NEXT_SVG}</button>
-                    </div>
-                    <table class="cal">
-                        <thead><tr>${WEEK.map((w) => html`<th>${w}</th>`)}</tr></thead>
-                        <tbody>
-                            ${repeat(
-                                Array.from({ length: 6 }, (_, r) => ({ r, days: this._cells().slice(r * 7, r * 7 + 7) })),
-                                (week) => String(week.r),
-                                (week) => html`
-                                    <tr>
-                                        ${week.days.map(
-                                            (c) => html`
-                                                <td>
-                                                    <button class=${this._cellCls(c)} type="button" @click=${() => this._pickDay(c)}>${c.d}</button>
-                                                </td>
-                                            `
-                                        )}
-                                    </tr>
-                                `
-                            )}
-                        </tbody>
-                    </table>
-                `)}
-                ${when(showTime, () => html`
-                    <div class="time">
-                        <select .value=${String(this.th)} @change=${(e) => { this.th = Number(e.target.value); this._syncClockToDraft(); }}>
-                            ${hours.map((h) => html`<option value=${String(h)}>${pad(h)}</option>`)}
-                        </select>
-                        <span>:</span>
-                        <select .value=${String(this.tmi)} @change=${(e) => { this.tmi = Number(e.target.value); this._syncClockToDraft(); }}>
-                            ${minutes.map((m) => html`<option value=${String(m)}>${pad(m)}</option>`)}
-                        </select>
-                        <span>:</span>
-                        <select .value=${String(this.ts)} @change=${(e) => { this.ts = Number(e.target.value); this._syncClockToDraft(); }}>
-                            ${seconds.map((s) => html`<option value=${String(s)}>${pad(s)}</option>`)}
-                        </select>
-                    </div>
-                `)}
-                ${when(this._isRange, () => html`
-                    <div class="hint">${this.draftE == null ? '点击选择开始日期，再次点击选择结束日期' : '再次点击可重新选择'}</div>
-                `)}
+                ${when(
+                    showCal,
+                    () => html`
+                        <div class="nav">
+                            <button
+                                type="button"
+                                .title=${msg('datePicker.prevYear')}
+                                @click=${() => this._shiftMonth(-12)}
+                            >
+                                <lux-icon name="double_arrow_left" size="15px"></lux-icon>
+                            </button>
+                            <button
+                                type="button"
+                                .title=${msg('datePicker.prevMonth')}
+                                @click=${() => this._shiftMonth(-1)}
+                            >
+                                <lux-icon name="chevron_left" size="15px"></lux-icon>
+                            </button>
+                            <span class="label">${monthLabel}</span>
+                            <button
+                                type="button"
+                                .title=${msg('datePicker.nextMonth')}
+                                @click=${() => this._shiftMonth(1)}
+                            >
+                                <lux-icon name="chevron_right" size="15px"></lux-icon>
+                            </button>
+                            <button
+                                type="button"
+                                .title=${msg('datePicker.nextYear')}
+                                @click=${() => this._shiftMonth(12)}
+                            >
+                                <lux-icon name="double_arrow_right" size="15px"></lux-icon>
+                            </button>
+                        </div>
+                        <table class="cal">
+                            <thead>
+                                <tr>
+                                    ${this._weekdays().map((w) => html`<th>${w}</th>`)}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${repeat(
+                                    Array.from({ length: 6 }, (_, r) => ({
+                                        r,
+                                        days: this._cells().slice(r * 7, r * 7 + 7),
+                                    })),
+                                    (week) => String(week.r),
+                                    (week) => html`
+                                        <tr>
+                                            ${week.days.map(
+                                                (c) => html`
+                                                    <td>
+                                                        <button
+                                                            class=${this._cellCls(c)}
+                                                            type="button"
+                                                            @click=${() => this._pickDay(c)}
+                                                        >
+                                                            ${c.d}
+                                                        </button>
+                                                    </td>
+                                                `
+                                            )}
+                                        </tr>
+                                    `
+                                )}
+                            </tbody>
+                        </table>
+                    `
+                )}
+                ${when(
+                    showTime,
+                    () => html`
+                        <div class="time">
+                            <select
+                                .value=${String(this.th)}
+                                @change=${(e) => {
+                                    this.th = Number(e.target.value);
+                                    this._syncClockToDraft();
+                                }}
+                            >
+                                ${hours.map((h) => html`<option value=${String(h)}>${pad(h)}</option>`)}
+                            </select>
+                            <span>:</span>
+                            <select
+                                .value=${String(this.tmi)}
+                                @change=${(e) => {
+                                    this.tmi = Number(e.target.value);
+                                    this._syncClockToDraft();
+                                }}
+                            >
+                                ${minutes.map((m) => html`<option value=${String(m)}>${pad(m)}</option>`)}
+                            </select>
+                            <span>:</span>
+                            <select
+                                .value=${String(this.ts)}
+                                @change=${(e) => {
+                                    this.ts = Number(e.target.value);
+                                    this._syncClockToDraft();
+                                }}
+                            >
+                                ${seconds.map((s) => html`<option value=${String(s)}>${pad(s)}</option>`)}
+                            </select>
+                        </div>
+                    `
+                )}
+                ${when(
+                    this._isRange,
+                    () => html`
+                        <div class="hint">
+                            ${this.draftE == null ? msg('datePicker.rangeStart') : msg('datePicker.rangeReset')}
+                        </div>
+                    `
+                )}
                 <div class="foot">
-                    <button type="button" @click=${() => this._clear()}>清空</button>
+                    <button type="button" @click=${() => this._clear()}>
+                        ${msg('datePicker.clear')}
+                    </button>
                     <span class="grow"></span>
-                    <button type="button" @click=${() => (this.open = false)}>取消</button>
-                    <button class="primary" type="button" ?disabled=${!canConfirm} @click=${() => this._confirm()}>确定</button>
+                    <button type="button" @click=${() => (this.open = false)}>
+                        ${msg('datePicker.cancel')}
+                    </button>
+                    <button
+                        class="primary"
+                        type="button"
+                        ?disabled=${!canConfirm}
+                        @click=${() => this._confirm()}
+                    >
+                        ${msg('datePicker.confirm')}
+                    </button>
                 </div>
             </div>
         `;

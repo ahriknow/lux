@@ -1,23 +1,23 @@
-import { html, css, LuxElement } from '../../lux.min.js';
+import { html, css, LuxElement, msg } from '../../lux.min.js';
 import { createTheme } from '../../lux.min.js';
 
 const presets = [
-    { name: 'Violet', color: '#6c5ce7' },
-    { name: 'Blue', color: '#3b82f6' },
-    { name: 'Cyan', color: '#00cec9' },
-    { name: 'Green', color: '#10b981' },
-    { name: 'Amber', color: '#f59e0b' },
-    { name: 'Red', color: '#ef4444' },
-    { name: 'Rose', color: '#f43f5e' },
-    { name: 'Orange', color: '#f97316' },
+    { name: 'theme.color.violet', color: '#6c5ce7' },
+    { name: 'theme.color.blue', color: '#3b82f6' },
+    { name: 'theme.color.cyan', color: '#00cec9' },
+    { name: 'theme.color.green', color: '#10b981' },
+    { name: 'theme.color.amber', color: '#f59e0b' },
+    { name: 'theme.color.red', color: '#ef4444' },
+    { name: 'theme.color.rose', color: '#f43f5e' },
+    { name: 'theme.color.orange', color: '#f97316' },
 ];
 
 const colorRoles = [
-    { key: 'primary', label: 'Primary', desc: 'Main accent color' },
-    { key: 'success', label: 'Success', desc: 'Positive actions, confirmations' },
-    { key: 'warning', label: 'Warning', desc: 'Caution, attention needed' },
-    { key: 'error', label: 'Error', desc: 'Destructive, errors, danger' },
-    { key: 'info', label: 'Info', desc: 'Links, informational' },
+    { key: 'primary', label: 'theme.role.primary', desc: 'theme.role.primary.desc' },
+    { key: 'success', label: 'theme.role.success', desc: 'theme.role.success.desc' },
+    { key: 'warning', label: 'theme.role.warning', desc: 'theme.role.warning.desc' },
+    { key: 'error', label: 'theme.role.error', desc: 'theme.role.error.desc' },
+    { key: 'info', label: 'theme.role.info', desc: 'theme.role.info.desc' },
 ];
 
 const styles = css`
@@ -244,8 +244,8 @@ class PageTest extends LuxElement {
 
     constructor() {
         super();
-        this._theme = createTheme();
-        this._dark = false;
+        this._dark = localStorage.getItem('lux-theme') === 'dark';
+        this._theme = createTheme({ dark: this._dark });
     }
 
     connectedCallback() {
@@ -259,6 +259,7 @@ class PageTest extends LuxElement {
 
     _toggleDark() {
         this._dark = !this._dark;
+        localStorage.setItem('lux-theme', this._dark ? 'dark' : 'light');
         this._theme.setDark(this._dark);
     }
 
@@ -270,15 +271,15 @@ class PageTest extends LuxElement {
             'width:24px;height:24px;border-radius:5px;border:1px solid rgb(var(--lux-border));';
 
         return html`
-            <h1>Theme Playground</h1>
-            <p>Pick colors for each role — palette and tokens are generated automatically.</p>
+            <h1>${msg('theme.title')}</h1>
+            <p>${msg('theme.subtitle')}</p>
 
             ${colorRoles.map(
                 (role) => html`
                     <div class="role-section">
                         <div class="role-header">
-                            <span class="role-label">${role.label}</span>
-                            <span class="role-desc">${role.desc}</span>
+                            <span class="role-label">${msg(role.label)}</span>
+                            <span class="role-desc">${msg(role.desc)}</span>
                         </div>
                         <div class="preset-row">
                             ${presets.map(
@@ -286,6 +287,11 @@ class PageTest extends LuxElement {
                                     <button
                                         class="preset-btn ${colors[role.key] === p.color ? 'active' : ''}"
                                         .style=${btnBase + 'background:' + p.color}
+                                        .title=${msg(p.name)}
+                                        aria-label=${msg('theme.chooseColor', {
+                                            role: msg(role.label),
+                                            color: msg(p.name),
+                                        })}
                                         @click=${() => this._pickColor(role.key, p.color)}
                                     ></button>
                                 `
@@ -294,6 +300,7 @@ class PageTest extends LuxElement {
                                 type="color"
                                 class="custom-input"
                                 .value=${colors[role.key]}
+                                aria-label=${msg('theme.customColor', { role: msg(role.label) })}
                                 @input=${(e) => this._pickColor(role.key, e.target.value)}
                             />
                         </div>
@@ -301,18 +308,19 @@ class PageTest extends LuxElement {
                 `
             )}
 
-            <h2>Dark Mode</h2>
+            <h2>${msg('theme.darkMode')}</h2>
             <div class="toggle-row">
                 <button
                     class="toggle ${this._dark ? 'on' : ''}"
+                    aria-label=${msg('theme.toggleDark')}
                     @click=${() => this._toggleDark()}
                 ></button>
                 <span style="color:rgb(var(--lux-text));font-size:14px"
-                    >${this._dark ? 'Dark' : 'Light'}</span
+                    >${this._dark ? msg('theme.dark') : msg('theme.light')}</span
                 >
             </div>
 
-            <h2>Generated Tokens</h2>
+            <h2>${msg('theme.generatedTokens')}</h2>
             <div class="tokens">
                 ${['primary-500', 'primary-400', 'primary-600', 'primary-700', 'primary-800'].map(
                     (k) => html`
@@ -349,39 +357,39 @@ class PageTest extends LuxElement {
                 )}
             </div>
 
-            <h2>Component Preview</h2>
-            <h3>Buttons</h3>
+            <h2>${msg('theme.componentPreview')}</h2>
+            <h3>${msg('theme.buttons')}</h3>
             <div class="preview">
-                <button class="btn-p btn-primary">Primary</button>
-                <button class="btn-p btn-outline">Outline</button>
-                <button class="btn-p btn-ghost">Ghost</button>
+                <button class="btn-p btn-primary">${msg('theme.primary')}</button>
+                <button class="btn-p btn-outline">${msg('theme.outline')}</button>
+                <button class="btn-p btn-ghost">${msg('theme.ghost')}</button>
             </div>
-            <h3>Badges</h3>
+            <h3>${msg('theme.badges')}</h3>
             <div class="preview">
                 <span class="badge" .style=${'background:rgb(var(--lux-primary-500));color:#fff'}
-                    >Primary</span
+                    >${msg('theme.role.primary')}</span
                 >
                 <span class="badge" .style=${'background:rgb(var(--lux-success));color:#fff'}
-                    >Success</span
+                    >${msg('theme.role.success')}</span
                 >
                 <span class="badge" .style=${'background:rgb(var(--lux-warning));color:#fff'}
-                    >Warning</span
+                    >${msg('theme.role.warning')}</span
                 >
                 <span class="badge" .style=${'background:rgb(var(--lux-error));color:#fff'}
-                    >Error</span
+                    >${msg('theme.role.error')}</span
                 >
                 <span class="badge" .style=${'background:rgb(var(--lux-info));color:#fff'}
-                    >Info</span
+                    >${msg('theme.role.info')}</span
                 >
             </div>
-            <h3>Input</h3>
+            <h3>${msg('theme.input')}</h3>
             <div class="preview">
-                <input class="input-p" placeholder="Type something..." />
+                <input class="input-p" .placeholder=${msg('theme.inputPlaceholder')} />
             </div>
-            <h3>Card</h3>
+            <h3>${msg('theme.card')}</h3>
             <div class="card-p">
-                <h3>Card Title</h3>
-                <p>This card uses theme tokens. Colors adapt to your selections above.</p>
+                <h3>${msg('theme.cardTitle')}</h3>
+                <p>${msg('theme.cardDesc')}</p>
             </div>
         `;
     }

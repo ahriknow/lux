@@ -13,6 +13,7 @@
  */
 
 import { html, css, LuxElement, registerComponent, classMap } from '../../index.js';
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -284,13 +285,6 @@ const styles = css`
     }
 `;
 
-const COPY_SVG = html`<span class="icon-svg" style="width:14px;height:14px;fill:currentColor"
-    ><svg viewBox="0 0 24 24">
-        <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-        /></svg
-></span>`;
-
 class LuxCode extends LuxElement {
     static styles = styles;
 
@@ -367,10 +361,10 @@ class LuxCode extends LuxElement {
                 </div>
                 <div class="header-right">
                     ${this.showLanguage ? html`<span class="lang-label">${this.language || 'text'}</span>` : ''}
-                    ${this.showCopy ? html`<button class="copy-btn" @click=${() => this._copy()}>${COPY_SVG}</button>` : ''}
+                    ${this.showCopy ? html`<button class="copy-btn" @click=${() => this._copy()}><lux-icon name="content_copy" size="14px"></lux-icon></button>` : ''}
                 </div>
             </div>
-            ${!this.showHeader && this.showCopy ? html`<button class="copy-float" @click=${() => this._copy()}>${COPY_SVG}</button>` : ''}
+            ${!this.showHeader && this.showCopy ? html`<button class="copy-float" @click=${() => this._copy()}><lux-icon name="content_copy" size="14px"></lux-icon></button>` : ''}
             <div class="code-body">
                 <pre><code></code></pre>
             </div>

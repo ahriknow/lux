@@ -16,20 +16,45 @@ const fruitOptions = [
 
 // 远程搜索演示数据：fetch(keyword) 模拟服务端过滤 + 随机延迟（竞态可观察）
 const DEMO_USERS = Array.from({ length: 24 }, (_, i) => {
-    const depts = ['平台组', '业务组', '基础设施', '质量保障'];
+    const depts = [
+        msg('select.department.platform'),
+        msg('select.department.business'),
+        msg('select.department.infrastructure'),
+        msg('select.department.quality'),
+    ];
     return {
         value: `u${i + 1}`,
-        label: `用户 ${String(i + 1).padStart(2, '0')}`,
+        label: msg('select.user', { number: String(i + 1).padStart(2, '0') }),
         dept: depts[i % 4],
     };
 });
 
 // 自定义 item 渲染演示数据
 const TEAM_OPTIONS = [
-    { value: 'core', label: '核心服务', color: 'danger', note: 'P0 值守' },
-    { value: 'web', label: '前端体验', color: 'primary', note: '组件库 / 文档' },
-    { value: 'infra', label: '基础设施', color: 'success', note: 'CI / 集群' },
-    { value: 'data', label: '数据平台', color: 'warning', note: '指标 / 报表' },
+    {
+        value: 'core',
+        label: msg('select.team.core'),
+        color: 'danger',
+        note: msg('select.team.coreNote'),
+    },
+    {
+        value: 'web',
+        label: msg('select.team.web'),
+        color: 'primary',
+        note: msg('select.team.webNote'),
+    },
+    {
+        value: 'infra',
+        label: msg('select.team.infra'),
+        color: 'success',
+        note: msg('select.team.infraNote'),
+    },
+    {
+        value: 'data',
+        label: msg('select.team.data'),
+        color: 'warning',
+        note: msg('select.team.dataNote'),
+    },
 ];
 
 const styles = css`
@@ -139,7 +164,7 @@ class PageComponentsSelect extends LuxElement {
                                 const dd = this.$('#dd-prog');
                                 if (dd) dd.value = 'banana';
                             }}
-                            >Set Banana</lux-button
+                            >${msg('select.setBanana')}</lux-button
                         >
                         <lux-button
                             @click=${() => {
@@ -153,7 +178,7 @@ class PageComponentsSelect extends LuxElement {
                                     dd.value = '';
                                 }
                             }}
-                            >Set Options</lux-button
+                            >${msg('select.setOptions')}</lux-button
                         >
                     </div>
                 </div>
@@ -197,7 +222,7 @@ dd.value = 'banana';
                     <lux-code
                         language="html"
                         .code=${`<lux-select
-  placeholder="输入搜索…"
+  placeholder="${msg('select.searchPlaceholder')}"
   .fetch=${'${async (keyword) => api.search(keyword)}'} // 返回 options 数组
   .fetchDelay=${'300'}                               // 防抖节流（毫秒）
   @change=${'${(e) => console.log(e.detail)}'}
@@ -224,7 +249,7 @@ dd.value = 'banana';
                         language="html"
                         .code=${`<lux-select
   searchable
-  .placeholder=${'"输入过滤…"'}
+  .placeholder=${JSON.stringify(msg('select.filterPlaceholder'))}
   .options=${'OPTIONS'}
 ></lux-select>`}
                     ></lux-code>
@@ -239,15 +264,25 @@ dd.value = 'banana';
                             .placeholder=${msg('select.ph.select')}
                             .options=${TEAM_OPTIONS}
                             .itemRender=${(opt, selected) => html`
-                                <div style="display:flex;align-items:center;gap:8px;min-width:160px">
+                                <div
+                                    style="display:flex;align-items:center;gap:8px;min-width:160px"
+                                >
                                     <span
                                         style="width:8px;height:8px;border-radius:50%;background:rgb(var(--lux-${opt.color}))"
                                     ></span>
                                     <b>${opt.label}</b>
-                                    <span style="font-size:12px;color:rgb(var(--lux-text-secondary))">${opt.note}</span>
-                                    ${selected
-                                        ? html`<span style="margin-left:auto;color:rgb(var(--lux-primary-400))">✓</span>`
-                                        : ''}
+                                    <span
+                                        style="font-size:12px;color:rgb(var(--lux-text-secondary))"
+                                        >${opt.note}</span
+                                    >
+                                    ${
+                                        selected
+                                            ? html`<span
+                                                  style="margin-left:auto;color:rgb(var(--lux-primary-400))"
+                                                  >✓</span
+                                              >`
+                                            : ''
+                                    }
                                 </div>
                             `}
                             @change=${(e) => console.log(e.detail)}

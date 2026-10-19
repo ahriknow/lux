@@ -18,10 +18,6 @@
 import { html, css, LuxElement, registerComponent, classMap, when, repeat } from '../../index.js';
 import '../lux-icon/index.js';
 
-const CHEVRON = html`<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-    <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path>
-</svg>`;
-
 const styles = css`
     :host {
         display: block;
@@ -164,7 +160,10 @@ class LuxTree extends LuxElement {
         this._syncData();
         // 全局关闭菜单
         this._onDocDown = (e) => {
-            if (this._menu && !e.composedPath?.().some((n) => n && n.classList && n.classList.contains('menu'))) {
+            if (
+                this._menu &&
+                !e.composedPath?.().some((n) => n && n.classList && n.classList.contains('menu'))
+            ) {
                 this._closeMenu();
             }
         };
@@ -191,7 +190,9 @@ class LuxTree extends LuxElement {
         if (attr) {
             try {
                 this.data = JSON.parse(attr);
-            } catch { /* ignore */ }
+            } catch {
+                /* ignore */
+            }
         }
     }
 
@@ -199,7 +200,9 @@ class LuxTree extends LuxElement {
         if (name === 'data-data' && newV !== oldV) {
             try {
                 this.data = JSON.parse(newV);
-            } catch { /* ignore */ }
+            } catch {
+                /* ignore */
+            }
         }
     }
 
@@ -273,15 +276,23 @@ class LuxTree extends LuxElement {
                 <span
                     class=${classMap({ twist: true, open: exp, leaf: !has })}
                     @click=${(e) => this._toggle(node.id, e)}
-                >${CHEVRON}</span>
+                    ><lux-icon name="chevron_right" size="12px"></lux-icon
+                ></span>
                 ${when(!!node.icon, () => html`<span class="icon"><lux-icon .name=${node.icon} size="16px"></lux-icon></span>`)}
                 <span class="label">${node.label ?? ''}</span>
             </div>
-            ${when(has && exp, () => html`
-                <div class="children">
-                    ${repeat(node.children, (c) => c.id, (c) => this._renderNode(c, depth + 1))}
-                </div>
-            `)}
+            ${when(
+                has && exp,
+                () => html`
+                    <div class="children">
+                        ${repeat(
+                            node.children,
+                            (c) => c.id,
+                            (c) => this._renderNode(c, depth + 1)
+                        )}
+                    </div>
+                `
+            )}
         `;
     }
 
@@ -298,20 +309,34 @@ class LuxTree extends LuxElement {
         const left = m.x + estW > vw ? Math.max(8, m.x - estW) : m.x;
         const top = m.y + estH > vh ? Math.max(8, m.y - estH) : m.y;
         return html`
-            <div class="menu-mask" @click=${() => this._closeMenu()} @contextmenu=${(e) => { e.preventDefault(); this._closeMenu(); }}></div>
+            <div
+                class="menu-mask"
+                @click=${() => this._closeMenu()}
+                @contextmenu=${(e) => {
+                    e.preventDefault();
+                    this._closeMenu();
+                }}
+            ></div>
             <div class="menu" style=${'left:' + left + 'px;top:' + top + 'px'}>
-                ${repeat(items, (it, i) => it.key || 'd' + i, (it) => html`
-                    ${when(!!it.divider, () => html`<div class="menu-divider"></div>`)}
-                    ${when(!it.divider, () => html`
-                        <div
-                            class=${classMap({ 'menu-item': true, disabled: !!it.disabled, danger: !!it.danger })}
-                            @click=${() => this._onMenuClick(it)}
-                        >
-                            ${when(!!it.icon, () => html`<lux-icon .name=${it.icon} size="16px"></lux-icon>`)}
-                            <span>${it.label ?? ''}</span>
-                        </div>
-                    `)}
-                `)}
+                ${repeat(
+                    items,
+                    (it, i) => it.key || 'd' + i,
+                    (it) => html`
+                        ${when(!!it.divider, () => html`<div class="menu-divider"></div>`)}
+                        ${when(
+                            !it.divider,
+                            () => html`
+                                <div
+                                    class=${classMap({ 'menu-item': true, disabled: !!it.disabled, danger: !!it.danger })}
+                                    @click=${() => this._onMenuClick(it)}
+                                >
+                                    ${when(!!it.icon, () => html`<lux-icon .name=${it.icon} size="16px"></lux-icon>`)}
+                                    <span>${it.label ?? ''}</span>
+                                </div>
+                            `
+                        )}
+                    `
+                )}
             </div>
         `;
     }
@@ -319,7 +344,11 @@ class LuxTree extends LuxElement {
     render() {
         return html`
             <div class="tree">
-                ${repeat(this.data || [], (n) => n.id, (n) => this._renderNode(n, 0))}
+                ${repeat(
+                    this.data || [],
+                    (n) => n.id,
+                    (n) => this._renderNode(n, 0)
+                )}
             </div>
             ${this._renderMenu()}
         `;

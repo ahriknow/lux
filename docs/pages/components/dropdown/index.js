@@ -71,7 +71,7 @@ class PageComponentsDropdown extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-dropdown .options=${fruitOptions}>
-                            <span slot="trigger">Select Fruit</span>
+                            <span slot="trigger">${msg('dropdown.selectFruit')}</span>
                         </lux-dropdown>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ class PageComponentsDropdown extends LuxElement {
                     <lux-code
                         language="html"
                         .code=${`<lux-dropdown .options=${'[{value:"apple",label:"Apple"},...]'}>
-    <span slot="trigger">Select Fruit</span>
+    <span slot="trigger">${msg('dropdown.selectFruit')}</span>
 </lux-dropdown>`}
                     ></lux-code>
                 </div>
@@ -90,14 +90,14 @@ class PageComponentsDropdown extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-dropdown id="dd-prog">
-                            <span slot="trigger">Select Fruit</span>
+                            <span slot="trigger">${msg('dropdown.selectFruit')}</span>
                         </lux-dropdown>
                         <lux-button
                             @click=${() => {
                                 const dd = this.$('#dd-prog');
                                 if (dd) dd.value = 'banana';
                             }}
-                            >Set Banana</lux-button
+                            >${msg('select.setBanana')}</lux-button
                         >
                         <lux-button
                             @click=${() => {
@@ -111,7 +111,7 @@ class PageComponentsDropdown extends LuxElement {
                                     dd.value = '';
                                 }
                             }}
-                            >Set Options</lux-button
+                            >${msg('select.setOptions')}</lux-button
                         >
                     </div>
                 </div>
@@ -119,7 +119,7 @@ class PageComponentsDropdown extends LuxElement {
                     <lux-code
                         language="html"
                         .code=${`<lux-dropdown id="dd">
-    <span slot="trigger">Select Fruit</span>
+    <span slot="trigger">${msg('dropdown.selectFruit')}</span>
 </lux-dropdown>
 
 <script>
@@ -141,7 +141,7 @@ dd.value = 'banana';
                 <div slot="main">
                     <div class="demo-row">
                         <lux-dropdown clearable .options=${fruitOptions}>
-                            <span slot="trigger">Select Fruit</span>
+                            <span slot="trigger">${msg('dropdown.selectFruit')}</span>
                         </lux-dropdown>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ dd.value = 'banana';
                     <lux-code
                         language="html"
                         .code=${`<lux-dropdown clearable .options=${'...'}>
-    <span slot="trigger">Select Fruit</span>
+    <span slot="trigger">${msg('dropdown.selectFruit')}</span>
 </lux-dropdown>`}
                     ></lux-code>
                 </div>
@@ -160,17 +160,17 @@ dd.value = 'banana';
                 <div slot="main">
                     <div class="demo-row">
                         <lux-dropdown size="sm" .options=${fruitOptions}>
-                            <span slot="trigger">Small</span>
+                            <span slot="trigger">${msg('demo.small')}</span>
                         </lux-dropdown>
                     </div>
                     <div class="demo-row">
                         <lux-dropdown .options=${fruitOptions}>
-                            <span slot="trigger">Medium</span>
+                            <span slot="trigger">${msg('demo.medium')}</span>
                         </lux-dropdown>
                     </div>
                     <div class="demo-row">
                         <lux-dropdown size="lg" .options=${fruitOptions}>
-                            <span slot="trigger">Large</span>
+                            <span slot="trigger">${msg('demo.large')}</span>
                         </lux-dropdown>
                     </div>
                 </div>
@@ -250,7 +250,7 @@ dd.value = 'banana';
                     <tbody>
                         <tr>
                             <td><code>trigger</code></td>
-                            <td>触发器内容，显示在按钮中</td>
+                            <td>${msg('dd.trigger.desc')}</td>
                         </tr>
                     </tbody>
                 </table>

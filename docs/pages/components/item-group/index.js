@@ -54,9 +54,9 @@ class PageComponentsItemGroup extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-item-group>
-                            <lux-button>Left</lux-button>
-                            <lux-button>Center</lux-button>
-                            <lux-button>Right</lux-button>
+                            <lux-button>${msg('demo.left')}</lux-button>
+                            <lux-button>${msg('demo.center')}</lux-button>
+                            <lux-button>${msg('demo.right')}</lux-button>
                         </lux-item-group>
                     </div>
                 </div>
@@ -77,16 +77,16 @@ class PageComponentsItemGroup extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-item-group>
-                            <lux-button variant="primary">One</lux-button>
-                            <lux-button variant="primary">Two</lux-button>
-                            <lux-button variant="primary">Three</lux-button>
+                            <lux-button variant="primary">${msg('demo.one')}</lux-button>
+                            <lux-button variant="primary">${msg('demo.two')}</lux-button>
+                            <lux-button variant="primary">${msg('demo.three')}</lux-button>
                         </lux-item-group>
                     </div>
                     <div class="demo-row">
                         <lux-item-group>
-                            <lux-button outline>Left</lux-button>
-                            <lux-button outline>Center</lux-button>
-                            <lux-button outline>Right</lux-button>
+                            <lux-button outline>${msg('demo.left')}</lux-button>
+                            <lux-button outline>${msg('demo.center')}</lux-button>
+                            <lux-button outline>${msg('demo.right')}</lux-button>
                         </lux-item-group>
                     </div>
                 </div>
@@ -140,9 +140,9 @@ class PageComponentsItemGroup extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-item-group vertical>
-                            <lux-button>Top</lux-button>
-                            <lux-button>Middle</lux-button>
-                            <lux-button>Bottom</lux-button>
+                            <lux-button>${msg('demo.top')}</lux-button>
+                            <lux-button>${msg('demo.middle')}</lux-button>
+                            <lux-button>${msg('demo.bottom')}</lux-button>
                         </lux-item-group>
                     </div>
                 </div>
@@ -163,23 +163,23 @@ class PageComponentsItemGroup extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-item-group>
-                            <lux-button>Go</lux-button>
-                            <lux-input placeholder="请输入地址"></lux-input>
-                            <lux-button variant="primary">Search</lux-button>
+                            <lux-button>${msg('demo.go')}</lux-button>
+                            <lux-input .placeholder=${msg('demo.addressPlaceholder')}></lux-input>
+                            <lux-button variant="primary">${msg('demo.search')}</lux-button>
                         </lux-item-group>
                     </div>
                     <div class="demo-row">
                         <lux-item-group>
                             <lux-select
-                                placeholder="选择类型"
+                                .placeholder=${msg('demo.typePlaceholder')}
                                 .options=${[
-                                    { value: 'all', label: '全部' },
-                                    { value: 'article', label: '文章' },
-                                    { value: 'video', label: '视频' },
+                                    { value: 'all', label: msg('demo.all') },
+                                    { value: 'article', label: msg('demo.article') },
+                                    { value: 'video', label: msg('demo.video') },
                                 ]}
                             ></lux-select>
-                            <lux-input placeholder="搜索关键词"></lux-input>
-                            <lux-button variant="primary">Search</lux-button>
+                            <lux-input .placeholder=${msg('demo.searchPlaceholder')}></lux-input>
+                            <lux-button variant="primary">${msg('demo.search')}</lux-button>
                         </lux-item-group>
                     </div>
                 </div>
@@ -188,14 +188,14 @@ class PageComponentsItemGroup extends LuxElement {
                         language="html"
                         .code=${`<lux-item-group>
     <lux-button>Go</lux-button>
-    <lux-input placeholder="请输入地址"></lux-input>
-    <lux-button variant="primary">Search</lux-button>
+    <lux-input placeholder="${msg('demo.addressPlaceholder')}"></lux-input>
+    <lux-button variant="primary">${msg('demo.search')}</lux-button>
 </lux-item-group>
 
 <lux-item-group>
-    <lux-select placeholder="选择类型" .options=${'[{...}]'}></lux-select>
-    <lux-input placeholder="搜索关键词"></lux-input>
-    <lux-button variant="primary">Search</lux-button>
+    <lux-select placeholder="${msg('demo.typePlaceholder')}" .options=${'[{...}]'}></lux-select>
+    <lux-input placeholder="${msg('demo.searchPlaceholder')}"></lux-input>
+    <lux-button variant="primary">${msg('demo.search')}</lux-button>
 </lux-item-group>`}
                     ></lux-code>
                 </div>
@@ -206,31 +206,31 @@ class PageComponentsItemGroup extends LuxElement {
                 <div slot="main">
                     <div class="demo-row">
                         <lux-item-group size="sm">
-                            <lux-button>Small</lux-button>
-                            <lux-button>Group</lux-button>
+                            <lux-button>${msg('demo.small')}</lux-button>
+                            <lux-button>${msg('demo.group')}</lux-button>
                         </lux-item-group>
                     </div>
                     <div class="demo-row">
                         <lux-item-group>
-                            <lux-button>Medium</lux-button>
-                            <lux-button>Group</lux-button>
+                            <lux-button>${msg('demo.medium')}</lux-button>
+                            <lux-button>${msg('demo.group')}</lux-button>
                         </lux-item-group>
                     </div>
                     <div class="demo-row">
                         <lux-item-group size="lg">
-                            <lux-button>Large</lux-button>
-                            <lux-button>Group</lux-button>
+                            <lux-button>${msg('demo.large')}</lux-button>
+                            <lux-button>${msg('demo.group')}</lux-button>
                         </lux-item-group>
                     </div>
                     <div class="demo-row">
                         <lux-item-group size="sm">
-                            <lux-button>Go</lux-button>
-                            <lux-input placeholder="Small input"></lux-input>
+                            <lux-button>${msg('demo.go')}</lux-button>
+                            <lux-input .placeholder=${msg('demo.smallInput')}></lux-input>
                             <lux-select
-                                placeholder="Select"
+                                .placeholder=${msg('demo.selectPlaceholder')}
                                 .options=${[
-                                    { value: '1', label: 'Option 1' },
-                                    { value: '2', label: 'Option 2' },
+                                    { value: '1', label: msg('demo.option', { number: 1 }) },
+                                    { value: '2', label: msg('demo.option', { number: 2 }) },
                                 ]}
                             ></lux-select>
                         </lux-item-group>
@@ -310,7 +310,7 @@ class PageComponentsItemGroup extends LuxElement {
                 </table>
             </lux-table>
 
-            <h2 style="margin-top:56px">CSS Variables</h2>
+            <h2 style="margin-top:56px">${msg('common.cssVars')}</h2>
             <lux-table border row-border stripe>
                 <table>
                     <thead>

@@ -18,25 +18,8 @@
  *
  * Events: change { value: [...] } — full list after add/remove (bubbles, composed)
  */
-import { html, css, LuxElement, registerComponent, when, repeat } from '../../index.js';
+import { html, css, LuxElement, registerComponent, when, repeat, msg } from '../../index.js';
 import '../lux-icon/index.js';
-
-const IMG_SVG = html`<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-    <path
-        d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
-    />
-</svg>`;
-const VID_SVG = html`<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-    <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" />
-</svg>`;
-const FILE_SVG = html`<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-    <path
-        d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"
-    />
-</svg>`;
-const X_SVG = html`<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-    <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-</svg>`;
 
 const styles = css`
     :host {
@@ -179,14 +162,16 @@ class LuxUpload extends LuxElement {
         this.readonly = false;
         this.maxSize = 8;
         this.upload = null;
-        this.placeholder = '拖拽文件到此处，或点击选择';
+        this.placeholder = '';
         this._over = false;
         this._hint = '';
     }
 
     _emitChange(next) {
         this.value = next;
-        this.dispatchEvent(new CustomEvent('change', { detail: { value: next }, bubbles: true, composed: true }));
+        this.dispatchEvent(
+            new CustomEvent('change', { detail: { value: next }, bubbles: true, composed: true })
+        );
     }
 
     _pick() {
@@ -205,7 +190,7 @@ class LuxUpload extends LuxElement {
         this._hint = '';
         for (const f of list) {
             if (this.maxSize && f.size > this.maxSize * 1024 * 1024) {
-                this._hint = `「${f.name}」超过 ${this.maxSize}MB，已忽略`;
+                this._hint = msg('upload.tooLarge', { name: f.name, size: this.maxSize });
                 continue;
             }
             accepted.push(f);
@@ -230,10 +215,16 @@ class LuxUpload extends LuxElement {
                         mime: m.mime || picks[i].type || '',
                     });
                 } else {
-                    failed.push(`${picks[i].name}: ${r.status === 'rejected' ? (r.reason && r.reason.message) || '上传失败' : '响应缺少 url'}`);
+                    failed.push(
+                        `${picks[i].name}: ${
+                            r.status === 'rejected'
+                                ? (r.reason && r.reason.message) || msg('upload.failed')
+                                : msg('upload.missingUrl')
+                        }`
+                    );
                 }
             }
-            if (failed.length) this._hint = failed.join('；');
+            if (failed.length) this._hint = failed.join(' · ');
             if (items.length) {
                 const base = this.multiple ? this.value || [] : [];
                 this._emitChange([...base, ...items]);
@@ -252,7 +243,12 @@ class LuxUpload extends LuxElement {
         for (const f of picks) {
             const r = new FileReader();
             r.onload = () => {
-                items.push({ name: f.name, size: f.size, type: f.type || '', data: String(r.result) });
+                items.push({
+                    name: f.name,
+                    size: f.size,
+                    type: f.type || '',
+                    data: String(r.result),
+                });
                 done();
             };
             r.onerror = () => done();
@@ -287,9 +283,9 @@ class LuxUpload extends LuxElement {
                       @dragleave=${() => (this._over = false)}
                       @drop=${(e) => this._onDrop(e)}
                   >
-                      ${this.placeholder}
+                      ${this.placeholder || msg('upload.placeholder')}
                       <div style="margin-top:4px;font-size:12px;opacity:.75">
-                          ${this.accept ? `支持 ${this.accept} · ` : ''}单文件 ≤ ${this.maxSize}MB${this.multiple ? ' · 可多选' : ''}
+                          ${this.accept ? msg('upload.supports', { accept: this.accept }) : ''}${msg('upload.singleLimit', { size: this.maxSize })}${this.multiple ? msg('upload.multiple') : ''}
                       </div>
                       <input
                           type="file"
@@ -316,11 +312,23 @@ class LuxUpload extends LuxElement {
                                 return html`
                                     <div class="item">
                                         <div class="media">
-                                            ${isImg
-                                                ? html`<img .src=${f.url || f.data} alt=${f.name} />`
-                                                : isVid
-                                                  ? html`<video .src=${f.url || f.data} controls preload="metadata"></video>`
-                                                  : html`${FILE_SVG}`}
+                                            ${
+                                                isImg
+                                                    ? html`<img
+                                                          .src=${f.url || f.data}
+                                                          alt=${f.name}
+                                                      />`
+                                                    : isVid
+                                                      ? html`<video
+                                                            .src=${f.url || f.data}
+                                                            controls
+                                                            preload="metadata"
+                                                        ></video>`
+                                                      : html`<lux-icon
+                                                            name="description"
+                                                            size="26px"
+                                                        ></lux-icon>`
+                                            }
                                         </div>
                                         <div class="meta">
                                             <div class="nm" title=${f.name}>${f.name}</div>
@@ -332,10 +340,10 @@ class LuxUpload extends LuxElement {
                                                 <button
                                                     class="rm"
                                                     type="button"
-                                                    aria-label="移除"
+                                                    aria-label=${msg('upload.remove')}
                                                     @click=${() => this._remove(f)}
                                                 >
-                                                    ${X_SVG}
+                                                    <lux-icon name="close" size="14px"></lux-icon>
                                                 </button>
                                             `
                                         )}

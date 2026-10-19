@@ -58,7 +58,7 @@ class PageI18n extends LuxElement {
         return html`
             <span
                 style="display:inline-block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:rgb(var(--lux-primary-400));margin-bottom:12px"
-                >Guide</span
+                >${msg('nav.i18n')}</span
             >
             <h1>${msg('i18n.title')}</h1>
             <p>${msg('i18n.subtitle')}</p>
@@ -223,7 +223,7 @@ i18n.locale  // → "zh-CN"`}
                 </table>
             </lux-table>
 
-            <div class="callout"><strong>Note:</strong> ${msg('i18n.note')}</div>
+            <div class="callout"><strong>${msg('common.note')}:</strong> ${msg('i18n.note')}</div>
         `;
     }
 }

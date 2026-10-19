@@ -7,8 +7,8 @@
  *   width         — dialog width (e.g. '560px'; default auto/480px)
  *   closable      — show the header × button (default true)
  *   maskClosable  — click mask / Esc to close (default true)
- *   confirmText   — footer confirm label (default '确定')
- *   cancelText    — footer cancel label (default '取消')
+ *   confirmText   — footer confirm label (localized by default)
+ *   cancelText    — footer cancel label (localized by default)
  *   hideFooter    — render no footer buttons (caller supplies its own)
  *   loading       — confirm button loading state
  *
@@ -19,12 +19,9 @@
  *
  * Slot: default → body content.
  */
-import { html, css, LuxElement, registerComponent, when } from '../../index.js';
+import { html, css, LuxElement, registerComponent, when, msg } from '../../index.js';
 import '../lux-button/index.js';
-
-const CLOSE_SVG = html`<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-    <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-</svg>`;
+import '../lux-icon/index.js';
 
 const styles = css`
     /* 0×0 block host — display:contents makes the fixed mask render fine but
@@ -136,8 +133,8 @@ class LuxModal extends LuxElement {
         this.width = '';
         this.closable = true;
         this.maskClosable = true;
-        this.confirmText = '确定';
-        this.cancelText = '取消';
+        this.confirmText = undefined;
+        this.cancelText = undefined;
         this.hideFooter = false;
         this.loading = false;
         this._onKey = (e) => {
@@ -168,7 +165,7 @@ class LuxModal extends LuxElement {
     willUpdate(changed) {
         super.willUpdate?.(changed);
         if (changed.has('open') && this.open) {
-            this._myZ = 2000 + ((LuxModal._zCounter = (LuxModal._zCounter || 0) + 1)) * 10;
+            this._myZ = 2000 + (LuxModal._zCounter = (LuxModal._zCounter || 0) + 1) * 10;
         }
     }
 
@@ -187,50 +184,49 @@ class LuxModal extends LuxElement {
     }
 
     render() {
-        return when(
-            this.open,
-            () => {
-                // 嵌套 modal：用打开计数器递增 z-index
-                return html`
-                <div class="mask" style="z-index:${this._myZ || 2000}" @click=${(e) => this._onMask(e)}>
-                    <div
-                        class="dialog"
-                        .style=${this.width ? `width:${this.width}` : ''}
-                        role="dialog"
-                    >
-                        <div class="head">
-                            <div class="title">${this.title}</div>
-                            ${when(
-                                this.closable,
-                                () => html`<button
+        return when(this.open, () => {
+            // 嵌套 modal：用打开计数器递增 z-index
+            return html` <div
+                class="mask"
+                style="z-index:${this._myZ || 2000}"
+                @click=${(e) => this._onMask(e)}
+            >
+                <div class="dialog" .style=${this.width ? `width:${this.width}` : ''} role="dialog">
+                    <div class="head">
+                        <div class="title">${this.title}</div>
+                        ${when(
+                            this.closable,
+                            () =>
+                                html`<button
                                     class="x"
                                     type="button"
-                                    aria-label="关闭"
+                                    aria-label=${msg('modal.close')}
                                     @click=${() => this._emit('close')}
                                 >
-                                    ${CLOSE_SVG}
+                                    <lux-icon name="close" size="18px"></lux-icon>
                                 </button>`
-                            )}
-                        </div>
-                        <div class="body"><slot></slot></div>
-                        ${when(
-                            !this.hideFooter,
-                            () => html`
-                                <div class="foot">
-                                    <lux-button @click=${() => this._emit('cancel')}>${this.cancelText}</lux-button>
-                                    <lux-button
-                                        variant="primary"
-                                        .loading=${this.loading}
-                                        @click=${() => this._emit('confirm')}
-                                        >${this.confirmText}</lux-button
-                                    >
-                                </div>
-                            `
                         )}
                     </div>
-                </div>`;
-            }
-        );
+                    <div class="body"><slot></slot></div>
+                    ${when(
+                        !this.hideFooter,
+                        () => html`
+                            <div class="foot">
+                                <lux-button @click=${() => this._emit('cancel')}
+                                    >${this.cancelText ?? msg('modal.cancel')}</lux-button
+                                >
+                                <lux-button
+                                    variant="primary"
+                                    .loading=${this.loading}
+                                    @click=${() => this._emit('confirm')}
+                                    >${this.confirmText ?? msg('modal.confirm')}</lux-button
+                                >
+                            </div>
+                        `
+                    )}
+                </div>
+            </div>`;
+        });
     }
 }
 

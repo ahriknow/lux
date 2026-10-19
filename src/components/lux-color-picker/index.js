@@ -4,23 +4,36 @@
  * Props:
  *   value      — '#rrggbb' (controlled, may be '' / semantic legacy names — shown as-is)
  *   palette    — array of hex strings (default: curated 20)
- *   placeholder— trigger hint when value empty (default 选择颜色)
+ *   placeholder— localized trigger hint when value is empty
  *   disabled
  *
  * Events: change { value } — bubbles + composed
  */
-import { html, css, LuxElement, registerComponent, repeat, when } from '../../index.js';
+import { html, css, LuxElement, registerComponent, repeat, when, msg } from '../../index.js';
+import '../lux-icon/index.js';
 
 export const DEFAULT_PALETTE = [
-    '#ef4444', '#dc2626', '#f97316', '#f59e0b', '#eab308',
-    '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4',
-    '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
-    '#d946ef', '#ec4899', '#f43f5e', '#64748b', '#0f172a',
+    '#ef4444',
+    '#dc2626',
+    '#f97316',
+    '#f59e0b',
+    '#eab308',
+    '#84cc16',
+    '#22c55e',
+    '#10b981',
+    '#14b8a6',
+    '#06b6d4',
+    '#0ea5e9',
+    '#3b82f6',
+    '#6366f1',
+    '#8b5cf6',
+    '#a855f7',
+    '#d946ef',
+    '#ec4899',
+    '#f43f5e',
+    '#64748b',
+    '#0f172a',
 ];
-
-const ARROW_SVG = html`<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-    <path d="M7 10l5 5 5-5z" />
-</svg>`;
 
 const styles = css`
     :host {
@@ -58,10 +71,13 @@ const styles = css`
         border-radius: 4px;
         border: 1px solid rgb(var(--lux-border, 226 232 240) / 80%);
         background: var(--cp, transparent);
-        background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%),
+        background-image:
+            linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%),
             linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%);
         background-size: 8px 8px;
-        background-position: 0 0, 4px 4px;
+        background-position:
+            0 0,
+            4px 4px;
         flex: 0 0 auto;
     }
     .dot i {
@@ -161,7 +177,7 @@ class LuxColorPicker extends LuxElement {
         super();
         this.value = '';
         this.palette = [...DEFAULT_PALETTE];
-        this.placeholder = '选择颜色';
+        this.placeholder = '';
         this.disabled = false;
         this.open = false;
         this._onDocClick = (e) => {
@@ -195,8 +211,8 @@ class LuxColorPicker extends LuxElement {
         return html`
             <div class="trigger" @click=${() => this._toggle()}>
                 <span class="dot" .style=${`--cp:${v || 'transparent'}`}><i></i></span>
-                <span class="text">${v || this.placeholder}</span>
-                <span class="arrow">${ARROW_SVG}</span>
+                <span class="text">${v || this.placeholder || msg('colorPicker.placeholder')}</span>
+                <span class="arrow"><lux-icon name="expand_more" size="14px"></lux-icon></span>
             </div>
             <div class=${this.open ? 'panel open' : 'panel'}>
                 <div class="grid">
@@ -220,7 +236,7 @@ class LuxColorPicker extends LuxElement {
                         .value=${/^#[0-9a-fA-F]{6}$/.test(v) ? v : '#6366f1'}
                         @input=${(e) => this._pick(e.target.value)}
                     />
-                    <span>自定义</span>
+                    <span>${msg('colorPicker.custom')}</span>
                     <span class="hex">${v || '—'}</span>
                 </div>
             </div>

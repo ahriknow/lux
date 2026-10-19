@@ -136,6 +136,22 @@ const icons = [
     'notification',
     'cloud',
     'download_done',
+    'account_tree',
+    'image',
+    'video',
+    'description',
+    'double_arrow_left',
+    'double_arrow_right',
+    'bolt',
+    'inventory_2',
+    'sync',
+    'track_changes',
+    'explore',
+    'feather',
+    'chevron_right',
+    'chevron_left',
+    'first_page',
+    'last_page',
 ];
 
 class PageComponentsIcon extends LuxElement {
@@ -240,59 +256,15 @@ class PageComponentsIcon extends LuxElement {
                 ><span slot="heading">${msg('icon.custom')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-icon size="32px"
-                            ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                />
-                                <path
-                                    d="M12 8v4l3 3"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                /></svg
-                        ></lux-icon>
-                        <lux-icon size="32px"
-                            ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <rect
-                                    x="3"
-                                    y="3"
-                                    width="18"
-                                    height="18"
-                                    rx="3"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                />
-                                <path
-                                    d="M8 12h8M12 8v8"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                /></svg
-                        ></lux-icon>
+                        <lux-icon .name=${'clock'} size="32px"></lux-icon>
+                        <lux-icon .name=${'add'} size="32px"></lux-icon>
                     </div>
                 </div>
                 <div slot="footer">
                     <lux-code
                         language="html"
-                        .code=${`<lux-icon size="32px">
-  <svg viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-  </svg>
-</lux-icon>
-<lux-icon size="32px">
-  <svg viewBox="0 0 24 24">
-    <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
-  </svg>
-</lux-icon>`}
+                        .code=${`<lux-icon .name="clock" size="32px"></lux-icon>
+<lux-icon .name="add" size="32px"></lux-icon>`}
                     ></lux-code>
                 </div>
             </lux-example>

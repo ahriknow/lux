@@ -72,10 +72,10 @@ class PageComponentsButton extends LuxElement {
                 <span slot="heading">${msg('btn.basic')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-button>Primary</lux-button>
-                        <lux-button variant="secondary">Secondary</lux-button>
-                        <lux-button outline>Outline</lux-button>
-                        <lux-button ghost>Ghost</lux-button>
+                        <lux-button>${msg('demo.primary')}</lux-button>
+                        <lux-button variant="secondary">${msg('demo.secondary')}</lux-button>
+                        <lux-button outline>${msg('demo.outline')}</lux-button>
+                        <lux-button ghost>${msg('demo.ghost')}</lux-button>
                     </div>
                 </div>
                 <div slot="footer">
@@ -93,22 +93,22 @@ class PageComponentsButton extends LuxElement {
                 <span slot="heading">${msg('btn.colors')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-button variant="success">Success</lux-button>
-                        <lux-button variant="warning">Warning</lux-button>
-                        <lux-button variant="error">Error</lux-button>
-                        <lux-button variant="info">Info</lux-button>
+                        <lux-button variant="success">${msg('demo.success')}</lux-button>
+                        <lux-button variant="warning">${msg('demo.warning')}</lux-button>
+                        <lux-button variant="error">${msg('demo.error')}</lux-button>
+                        <lux-button variant="info">${msg('demo.info')}</lux-button>
                     </div>
                     <div class="demo-row" style="margin-top:8px">
-                        <lux-button variant="success" outline>Success</lux-button>
-                        <lux-button variant="warning" outline>Warning</lux-button>
-                        <lux-button variant="error" outline>Error</lux-button>
-                        <lux-button variant="info" outline>Info</lux-button>
+                        <lux-button variant="success" outline>${msg('demo.success')}</lux-button>
+                        <lux-button variant="warning" outline>${msg('demo.warning')}</lux-button>
+                        <lux-button variant="error" outline>${msg('demo.error')}</lux-button>
+                        <lux-button variant="info" outline>${msg('demo.info')}</lux-button>
                     </div>
                     <div class="demo-row" style="margin-top:8px">
-                        <lux-button variant="success" ghost>Success</lux-button>
-                        <lux-button variant="warning" ghost>Warning</lux-button>
-                        <lux-button variant="error" ghost>Error</lux-button>
-                        <lux-button variant="info" ghost>Info</lux-button>
+                        <lux-button variant="success" ghost>${msg('demo.success')}</lux-button>
+                        <lux-button variant="warning" ghost>${msg('demo.warning')}</lux-button>
+                        <lux-button variant="error" ghost>${msg('demo.error')}</lux-button>
+                        <lux-button variant="info" ghost>${msg('demo.info')}</lux-button>
                     </div>
                 </div>
                 <div slot="footer">
@@ -134,9 +134,9 @@ class PageComponentsButton extends LuxElement {
                 <span slot="heading">${msg('btn.sizes')}</span>
                 <div slot="main">
                     <div class="demo-row" style="align-items:center">
-                        <lux-button size="sm">Small</lux-button>
-                        <lux-button size="md">Medium</lux-button>
-                        <lux-button size="lg">Large</lux-button>
+                        <lux-button size="sm">${msg('demo.small')}</lux-button>
+                        <lux-button size="md">${msg('demo.medium')}</lux-button>
+                        <lux-button size="lg">${msg('demo.large')}</lux-button>
                     </div>
                 </div>
                 <div slot="footer">
@@ -153,10 +153,10 @@ class PageComponentsButton extends LuxElement {
                 <span slot="heading">${msg('btn.icon')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-button icon="add">Add</lux-button>
-                        <lux-button icon="edit">Edit</lux-button>
-                        <lux-button icon="delete" variant="error">Delete</lux-button>
-                        <lux-button icon="search" outline>Search</lux-button>
+                        <lux-button icon="add">${msg('demo.add')}</lux-button>
+                        <lux-button icon="edit">${msg('demo.edit')}</lux-button>
+                        <lux-button icon="delete" variant="error">${msg('demo.delete')}</lux-button>
+                        <lux-button icon="search" outline>${msg('demo.search')}</lux-button>
                     </div>
                 </div>
                 <div slot="footer">
@@ -225,8 +225,8 @@ class PageComponentsButton extends LuxElement {
                 <span slot="heading">${msg('btn.states')}</span>
                 <div slot="main">
                     <div class="demo-row">
-                        <lux-button disabled>Disabled</lux-button>
-                        <lux-button loading>Loading</lux-button>
+                        <lux-button disabled>${msg('demo.disabled')}</lux-button>
+                        <lux-button loading>${msg('demo.loading')}</lux-button>
                         <lux-button shape="circle" icon="add" disabled></lux-button>
                         <lux-button shape="circle" icon="add" loading></lux-button>
                     </div>
@@ -245,7 +245,7 @@ class PageComponentsButton extends LuxElement {
             <lux-example>
                 <span slot="heading">${msg('btn.block')}</span>
                 <div slot="main">
-                    <lux-button block>Block Button</lux-button>
+                    <lux-button block>${msg('btn.block')}</lux-button>
                 </div>
                 <div slot="footer">
                     <lux-code

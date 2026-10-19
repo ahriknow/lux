@@ -74,14 +74,12 @@ class PageComponentsExample extends LuxElement {
                 <span slot="heading">${msg('ex.basic')}</span>
                 <div slot="main">
                     <lux-example>
-                        <span slot="heading">Demo</span>
+                        <span slot="heading">${msg('example.demoHeading')}</span>
                         <div slot="main">
-                            <p>This is the main content area. It's always visible.</p>
+                            <p>${msg('example.mainContent')}</p>
                         </div>
                         <div slot="footer">
-                            <p>
-                                This is the footer content. Click the header to toggle visibility.
-                            </p>
+                            <p>${msg('example.footerContent')}</p>
                         </div>
                     </lux-example>
                 </div>
@@ -105,12 +103,12 @@ class PageComponentsExample extends LuxElement {
                 <span slot="heading">${msg('ex.preexpanded')}</span>
                 <div slot="main">
                     <lux-example .expanded=${true}>
-                        <span slot="heading">Pre-expanded</span>
+                        <span slot="heading">${msg('example.preExpanded')}</span>
                         <div slot="main">
-                            <p>This example starts expanded. The footer is visible by default.</p>
+                            <p>${msg('example.expandedContent')}</p>
                         </div>
                         <div slot="footer">
-                            <p>Footer content visible on load.</p>
+                            <p>${msg('example.footerVisible')}</p>
                         </div>
                     </lux-example>
                 </div>
@@ -134,12 +132,12 @@ class PageComponentsExample extends LuxElement {
                 <span slot="heading">${msg('ex.event')}</span>
                 <div slot="main">
                     <lux-example>
-                        <span slot="heading">With Code</span>
+                        <span slot="heading">${msg('example.withCode')}</span>
                         <div slot="main">
-                            <p>Rendered result above, expand to see the code below.</p>
+                            <p>${msg('example.renderedContent')}</p>
                         </div>
                         <div slot="footer">
-                            <p>Code or additional details go in the footer slot.</p>
+                            <p>${msg('example.footerDetails')}</p>
                         </div>
                     </lux-example>
                 </div>

@@ -164,7 +164,7 @@ const router = createRouter({
                 </table>
             </lux-table>
 
-            <div class="callout"><strong>Note:</strong> ${msg('router.note')}</div>
+            <div class="callout"><strong>${msg('common.note')}:</strong> ${msg('router.note')}</div>
         `;
     }
 }

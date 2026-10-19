@@ -20,6 +20,7 @@
  */
 
 import { html, css, LuxElement, registerComponent } from '../../index.js';
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -339,10 +340,10 @@ class LuxScroll extends LuxElement {
                     ? html`
                           <div class="scroll-buttons">
                               <button class="scroll-btn" @click=${() => this.scrollToTop()}>
-                                  ▲
+                                  <lux-icon name="expand_less" size="16px"></lux-icon>
                               </button>
                               <button class="scroll-btn" @click=${() => this.scrollToBottom()}>
-                                  ▼
+                                  <lux-icon name="expand_more" size="16px"></lux-icon>
                               </button>
                           </div>
                       `

@@ -420,7 +420,7 @@ const MyButton = createComponent(
                 show-header
             ></lux-code>
 
-            <div class="callout"><strong>Note:</strong> ${msg('api.note')}</div>
+            <div class="callout"><strong>${msg('common.note')}:</strong> ${msg('api.note')}</div>
         `;
     }
 }

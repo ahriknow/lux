@@ -99,9 +99,7 @@ class PageGuide extends LuxElement {
             ></lux-code>
 
             <h2>${msg('guide.template')}</h2>
-            <p>
-                If you just need <code>html</code> and <code>render</code> without Web Components:
-            </p>
+            <p>${msg('guide.templateDesc')}</p>
             <lux-code
                 language="javascript"
                 .code=${`import { html, render } from '@ahriknow/lux/template';`}
@@ -227,8 +225,8 @@ class MyList extends LuxElement {
             ></lux-code>
 
             <div class="callout">
-                <strong>Next step:</strong> Learn about <a href="#/api">API reference</a> for
-                properties, bindings, and directives.
+                <strong>${msg('guide.nextStep')}</strong> ${msg('guide.nextDesc')}
+                <a href="#/api">${msg('nav.api')}</a> ${msg('guide.nextEnd')}
             </div>
         `;
     }

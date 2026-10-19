@@ -76,7 +76,6 @@ const styles = css`
         width: 24px;
         height: 24px;
         transition: transform 150ms ease;
-        font-size: 22px;
     }
     .item-arrow.open {
         transform: rotate(90deg);
@@ -267,7 +266,7 @@ class LuxMenu extends LuxElement {
                 >
                     ${item.icon ? html`<span class="item-icon"><lux-icon .name=${item.icon} size="20px"></lux-icon></span>` : ''}
                     <span class="item-label">${item.label || ''}</span>
-                    ${has ? html`<span class=${classMap({ 'item-arrow': true, open: isExp })}>›</span>` : ''}
+                    ${has ? html`<span class=${classMap({ 'item-arrow': true, open: isExp })}><lux-icon name="chevron_right" size="18px"></lux-icon></span>` : ''}
                 </div>
                 ${has && isExp ? html`<div class="children">${this._renderItems(item.children)}</div>` : ''}
             `;

@@ -1,13 +1,14 @@
-import { html, css, LuxElement, registerComponent, classMap, repeat, when } from '../../index.js';
-
-const ARROW_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
-</svg>`;
-const CLEAR_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path
-        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-    />
-</svg>`;
+import {
+    html,
+    css,
+    LuxElement,
+    registerComponent,
+    classMap,
+    repeat,
+    when,
+    msg,
+} from '../../index.js';
+import '../lux-icon/index.js';
 
 const styles = css`
     :host {
@@ -347,12 +348,15 @@ class LuxSelect extends LuxElement {
         const base = Array.isArray(this.options) ? this.options : [];
         if (this._fetchMode) return Array.isArray(this.searchOptions) ? this.searchOptions : [];
         if (this.searchable) {
-            const kw = String(this.keyword ?? '').trim().toLowerCase();
+            const kw = String(this.keyword ?? '')
+                .trim()
+                .toLowerCase();
             if (!kw) return base;
             return base.filter(
                 (o) =>
-                    String(o.label ?? o.value).toLowerCase().includes(kw) ||
-                    String(o.value).toLowerCase().includes(kw)
+                    String(o.label ?? o.value)
+                        .toLowerCase()
+                        .includes(kw) || String(o.value).toLowerCase().includes(kw)
             );
         }
         return base;
@@ -497,7 +501,9 @@ class LuxSelect extends LuxElement {
                   @keydown=${(e) => this._onSearchKeydown(e)}
                   @click=${(e) => e.stopPropagation()}
               />`
-            : html`<span class=${classMap({ placeholder: isPh })} .style=${tone}>${text || ph}</span>`;
+            : html`<span class=${classMap({ placeholder: isPh })} .style=${tone}
+                  >${text || ph}</span
+              >`;
 
         return html`
             <div class="trigger" @click=${() => this._toggle()}>
@@ -509,23 +515,23 @@ class LuxSelect extends LuxElement {
                             e.stopPropagation();
                             this._clear();
                         }}
-                        >${CLEAR_SVG}</span
-                    >
-                    <span class="arrow">${ARROW_SVG}</span>
+                        ><lux-icon name="close"></lux-icon
+                    ></span>
+                    <span class="arrow"><lux-icon name="expand_more"></lux-icon></span>
                 </span>
             </div>
             <div class="menu">
                 ${when(
                     isFetch && this.searching,
-                    () => html`<div class="menu-state">搜索中…</div>`
+                    () => html`<div class="menu-state">${msg('select.loading')}</div>`
                 )}
                 ${when(
                     isFetch && this.searchError,
-                    () => html`<div class="menu-state">搜索失败，请重试</div>`
+                    () => html`<div class="menu-state">${msg('select.error')}</div>`
                 )}
                 ${when(
                     searchActive && !this.searching && !this.searchError && opts.length === 0,
-                    () => html`<div class="menu-state">无匹配数据</div>`
+                    () => html`<div class="menu-state">${msg('select.noResults')}</div>`
                 )}
                 ${repeat(
                     opts,
@@ -534,11 +540,15 @@ class LuxSelect extends LuxElement {
                         const selected = String(opt.value) === String(this.value);
                         const custom = this.itemRender ? this.itemRender(opt, selected) : null;
                         const tpl = this._optionTemplate();
-                        const body = custom != null
-                            ? custom
-                            : tpl
-                              ? html`<span class="opt-slot" ref=${(el) => this._fillOptionTemplate(el, opt)}></span>`
-                              : (opt.label ?? opt.value);
+                        const body =
+                            custom != null
+                                ? custom
+                                : tpl
+                                  ? html`<span
+                                        class="opt-slot"
+                                        ref=${(el) => this._fillOptionTemplate(el, opt)}
+                                    ></span>`
+                                  : (opt.label ?? opt.value);
                         return html`
                             <div
                                 class=${classMap({ item: true, active: selected })}
@@ -572,8 +582,12 @@ class LuxSelect extends LuxElement {
             if (!f) return;
             const v = opt[f];
             if (f === 'color' || f === 'background') {
-                if (v == null || v === '') { node.style.display = 'none'; }
-                else { node.style.display = ''; node.style.background = String(v); }
+                if (v == null || v === '') {
+                    node.style.display = 'none';
+                } else {
+                    node.style.display = '';
+                    node.style.background = String(v);
+                }
             } else node.textContent = v == null ? '' : String(v);
         };
         const root = frag.firstElementChild;

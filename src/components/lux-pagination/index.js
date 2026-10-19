@@ -40,24 +40,6 @@ function _t(key, values = {}) {
     return str;
 }
 
-const PREV_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-</svg>`;
-const NEXT_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-</svg>`;
-const MORE_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path
-        d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-    />
-</svg>`;
-const DOUBLE_PREV_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z" />
-</svg>`;
-const DOUBLE_NEXT_SVG = html`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor">
-    <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z" />
-</svg>`;
-
 const styles = css`
     :host {
         display: inline-flex;
@@ -337,7 +319,7 @@ class LuxPagination extends LuxElement {
                 class=${prevDisabled ? 'page-item nav disabled' : 'page-item nav'}
                 @click=${() => !prevDisabled && this._go(current - 1)}
             >
-                ${PREV_SVG}
+                <lux-icon name="chevron_left"></lux-icon>
             </div>
             <div class="page-item active" style="cursor:default">${current}</div>
             <span style="color:rgb(var(--lux-text-muted));padding:0 2px">/</span>
@@ -346,7 +328,7 @@ class LuxPagination extends LuxElement {
                 class=${nextDisabled ? 'page-item nav disabled' : 'page-item nav'}
                 @click=${() => !nextDisabled && this._go(current + 1)}
             >
-                ${NEXT_SVG}
+                <lux-icon name="chevron_right"></lux-icon>
             </div>
             ${this._renderQuickJumper()}
         `;
@@ -440,13 +422,13 @@ class LuxPagination extends LuxElement {
                 class=${prevDisabled ? 'page-item nav disabled' : 'page-item nav'}
                 @click=${() => !prevDisabled && this._go(1)}
             >
-                ${DOUBLE_PREV_SVG}
+                <lux-icon name="first_page"></lux-icon>
             </div>
             <div
                 class=${prevDisabled ? 'page-item nav disabled' : 'page-item nav'}
                 @click=${() => !prevDisabled && this._go(current - 1)}
             >
-                ${PREV_SVG}
+                <lux-icon name="chevron_left"></lux-icon>
             </div>
 
             ${pages.map((p) => {
@@ -454,11 +436,11 @@ class LuxPagination extends LuxElement {
                     return html` <div
                         class="page-item ellipsis"
                         @click=${() => {
-                                if (this.disabled) return;
-                                this._go(p === 'prev-ellipsis' ? current - 3 : current + 3);
-                            }}
+                            if (this.disabled) return;
+                            this._go(p === 'prev-ellipsis' ? current - 3 : current + 3);
+                        }}
                     >
-                        ${MORE_SVG}
+                        <lux-icon name="more_horiz"></lux-icon>
                     </div>`;
                 }
                 return html` <div
@@ -473,13 +455,13 @@ class LuxPagination extends LuxElement {
                 class=${nextDisabled ? 'page-item nav disabled' : 'page-item nav'}
                 @click=${() => !nextDisabled && this._go(current + 1)}
             >
-                ${NEXT_SVG}
+                <lux-icon name="chevron_right"></lux-icon>
             </div>
             <div
                 class=${nextDisabled ? 'page-item nav disabled' : 'page-item nav'}
                 @click=${() => !nextDisabled && this._go(total)}
             >
-                ${DOUBLE_NEXT_SVG}
+                <lux-icon name="last_page"></lux-icon>
             </div>
 
             ${this._renderQuickJumper()} ${this._renderSizeChanger()}

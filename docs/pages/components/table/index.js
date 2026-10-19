@@ -122,18 +122,18 @@ class PageComponentsTable extends LuxElement {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Feature</th>
-                                    <th>Status</th>
+                                    <th>${msg('table.feature')}</th>
+                                    <th>${msg('table.status')}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Small</td>
-                                    <td>13px font, 6px padding</td>
+                                    <td>${msg('table.small')}</td>
+                                    <td>${msg('table.smallDescription')}</td>
                                 </tr>
                                 <tr>
-                                    <td>Medium</td>
-                                    <td>14px font, 10px padding (default)</td>
+                                    <td>${msg('table.medium')}</td>
+                                    <td>${msg('table.mediumDescription')}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -142,14 +142,14 @@ class PageComponentsTable extends LuxElement {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Feature</th>
-                                    <th>Status</th>
+                                    <th>${msg('table.feature')}</th>
+                                    <th>${msg('table.status')}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Large</td>
-                                    <td>15px font, 14px padding</td>
+                                    <td>${msg('table.large')}</td>
+                                    <td>${msg('table.largeDescription')}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -175,9 +175,9 @@ class PageComponentsTable extends LuxElement {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Left</th>
-                                    <th>Center</th>
-                                    <th>Right</th>
+                                    <th>${msg('demo.left')}</th>
+                                    <th>${msg('demo.center')}</th>
+                                    <th>${msg('demo.right')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -212,26 +212,26 @@ class PageComponentsTable extends LuxElement {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Icon</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
+                                    <th>${msg('table.icon')}</th>
+                                    <th>${msg('table.name')}</th>
+                                    <th>${msg('table.description')}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>✓</td>
                                     <td>check</td>
-                                    <td>Check mark</td>
+                                    <td>${msg('table.checkmark')}</td>
                                 </tr>
                                 <tr>
                                     <td>✕</td>
                                     <td>close</td>
-                                    <td>Close / cancel</td>
+                                    <td>${msg('table.closeCancel')}</td>
                                 </tr>
                                 <tr>
                                     <td>🔍</td>
                                     <td>search</td>
-                                    <td>Search</td>
+                                    <td>${msg('table.search')}</td>
                                 </tr>
                             </tbody>
                         </table>
